@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "default_profile": "optik-master",
+  "profiles": [
+    {
+      "id": "optik-master",
+      "label": "Optik Enterprise Master",
+      "system_file": "agents/prompts/optik_gpt_system.md",
+      "tool_policy_file": "agents/prompts/optik_gpt_tools.md"
+    },
+    {
+      "id": "claude-master",
+      "label": "Claude Master Style",
+      "system_file": "agents/prompts/optik_gpt_claude.md"
+    },
+    {
+      "id": "openai-master",
+      "label": "OpenAI Master Style",
+      "system_file": "agents/prompts/optik_gpt_openai.md"
+    },
+    {
+      "id": "shopify-assistant",
+      "label": "Shopify Commerce Assistant",
+      "system_file": "agents/prompts/optik_gpt_shopify.md"
+    },
+    {
+      "id": "file-audit",
+      "label": "File Audit Agent",
+      "system_file": "agents/prompts/file_audit_system.md"
+    },
+    {
+      "id": "supervisor-verification",
+      "label": "Supervisor Verification",
+      "system_file": "agents/prompts/supervisor_verification.md"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "version": "1.0",
+  "title": "Merchant DApp Creation Intake",
+  "sections": [
+    {
+      "id": "merchant_profile",
+      "title": "Merchant Profile",
+      "questions": [
+        {"id": "merchant_legal_name", "label": "Legal business name", "type": "text", "required": true},
+        {"id": "merchant_contact_email", "label": "Primary contact email", "type": "email", "required": true},
+        {"id": "merchant_country", "label": "Country of operation", "type": "text", "required": true},
+        {"id": "merchant_timezone", "label": "Primary timezone", "type": "text", "required": true}
+      ]
+    },
+    {
+      "id": "store_details",
+      "title": "Store Details",
+      "questions": [
+        {"id": "store_name", "label": "Storefront name", "type": "text", "required": true},
+        {"id": "store_url", "label": "Current store URL", "type": "url", "required": true},
+        {"id": "store_platform", "label": "Platform", "type": "choice", "required": true, "options": ["shopify", "woocommerce", "custom", "other"]},
+        {"id": "store_currency", "label": "Primary currency", "type": "text", "required": true},
+        {"id": "store_collections", "label": "Collections to migrate (comma separated or ALL)", "type": "text", "required": true}
+      ]
+    },
+    {
+      "id": "api_credentials",
+      "title": "API Credentials",
+      "questions": [
+        {"id": "shopify_admin_token", "label": "Shopify Admin Access Token", "type": "secret", "required": false},
+        {"id": "shopify_api_key", "label": "Shopify API Key", "type": "secret", "required": false},
+        {"id": "shopify_api_secret", "label": "Shopify API Secret", "type": "secret", "required": false},
+        {"id": "woo_consumer_key", "label": "WooCommerce Consumer Key", "type": "secret", "required": false},
+        {"id": "woo_consumer_secret", "label": "WooCommerce Consumer Secret", "type": "secret", "required": false}
+      ]
+    },
+    {
+      "id": "branding",
+      "title": "Branding",
+      "questions": [
+        {"id": "brand_logo_url", "label": "Logo URL", "type": "url", "required": true},
+        {"id": "brand_primary_color", "label": "Primary color", "type": "text", "required": true},
+        {"id": "brand_typography", "label": "Preferred typography", "type": "text", "required": false}
+      ]
+    },
+    {
+      "id": "payments_and_legal",
+      "title": "Payments and Legal",
+      "questions": [
+        {"id": "tier_selection", "label": "Revenue share tier", "type": "choice", "required": true, "options": ["basic", "growth", "global", "scale", "elite"]},
+        {"id": "agreement_signed", "label": "Agreement accepted", "type": "boolean", "required": true},
+        {"id": "wallet_address", "label": "Settlement wallet address", "type": "text", "required": true},
+        {"id": "optik_token_enabled", "label": "Enable Optik token rewards", "type": "boolean", "required": true}
+      ]
+    },
+    {
+      "id": "operations",
+      "title": "Operations",
+      "questions": [
+        {"id": "shipping_policy_url", "label": "Shipping policy URL", "type": "url", "required": true},
+        {"id": "return_policy_url", "label": "Return policy URL", "type": "url", "required": true},
+        {"id": "support_email", "label": "Support email", "type": "email", "required": true},
+        {"id": "support_sla_hours", "label": "Support SLA in hours", "type": "number", "required": true}
+      ]
+    }
+  ]
+}

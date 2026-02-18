@@ -1,0 +1,159 @@
+{
+  "workflow_id": "merchant_dapp_creation_v1",
+  "title": "Enterprise Merchant DApp Creation",
+  "description": "End-to-end pipeline for building a production-ready DApp storefront from merchant data, with strict proof-of-completion gates.",
+  "entry_gate": {
+    "agreement_required": true,
+    "payment": {
+      "provider": "stripe",
+      "amount_usd": 49,
+      "currency": "USD",
+      "non_refundable": true,
+      "purpose": "Onboarding gate"
+    }
+  },
+  "tiers": [
+    {
+      "id": "basic",
+      "revenue_share_pct": 3,
+      "amenities": ["Core AI ops", "Standard storefront", "Basic analytics"]
+    },
+    {
+      "id": "growth",
+      "revenue_share_pct": 5,
+      "amenities": ["Marketing agent", "Automation workflows", "Priority support"]
+    },
+    {
+      "id": "global",
+      "revenue_share_pct": 9,
+      "amenities": ["Multi-region rollout", "Localization", "Conversion uplift"]
+    },
+    {
+      "id": "scale",
+      "revenue_share_pct": 12,
+      "amenities": ["Security suite", "Load testing", "SLA monitoring"]
+    },
+    {
+      "id": "elite",
+      "revenue_share_pct": 15,
+      "amenities": ["Full autonomy", "Custom contract work", "Private advisor"]
+    }
+  ],
+  "questionnaire": "agents/workflows/merchant_intake_questions.json",
+  "steps": [
+    {
+      "id": "intake_gate",
+      "agent": "onboarding_superagent",
+      "purpose": "Collect merchant profile, agreement signature, and Stripe onboarding payment.",
+      "inputs": ["questionnaire", "stripe_payment"],
+      "outputs": ["intake_profile", "agreement_receipt", "payment_receipt"],
+      "proofs": ["audit/proofs/workflows/intake_gate.json"],
+      "blocking": true
+    },
+    {
+      "id": "credential_validation",
+      "agent": "backend_agent",
+      "purpose": "Validate API credentials and merchant access.",
+      "inputs": ["api_credentials"],
+      "outputs": ["credential_report"],
+      "proofs": ["audit/proofs/workflows/credential_validation.json"],
+      "blocking": true
+    },
+    {
+      "id": "catalog_scrape",
+      "agent": "scraper_agent",
+      "purpose": "Scrape or ingest product catalog via Shopify GPT or platform APIs.",
+      "inputs": ["store_url", "api_credentials"],
+      "outputs": ["raw_catalog"],
+      "proofs": ["audit/proofs/workflows/catalog_scrape.json"],
+      "blocking": true
+    },
+    {
+      "id": "catalog_analysis",
+      "agent": "catalog_analyzer_agent",
+      "purpose": "Normalize catalog, dedupe, enrich metadata, and map categories.",
+      "inputs": ["raw_catalog"],
+      "outputs": ["normalized_catalog"],
+      "proofs": ["audit/proofs/workflows/catalog_analysis.json"],
+      "blocking": true
+    },
+    {
+      "id": "architecture_and_wireframes",
+      "agent": "frontend_agent",
+      "purpose": "Generate enterprise architecture plan, global styles, and wireframes.",
+      "inputs": ["branding", "normalized_catalog"],
+      "outputs": ["architecture_plan", "wireframes"],
+      "proofs": ["audit/proofs/workflows/architecture_and_wireframes.json"],
+      "blocking": true
+    },
+    {
+      "id": "storefront_build",
+      "agent": "frontend_agent",
+      "purpose": "Build the storefront and dashboard integration.",
+      "inputs": ["architecture_plan", "wireframes"],
+      "outputs": ["storefront_build"],
+      "proofs": ["audit/proofs/workflows/storefront_build.json"],
+      "blocking": true
+    },
+    {
+      "id": "nft_metadata_and_mint",
+      "agent": "nft_minter_agent",
+      "purpose": "Create NFT metadata, upload to IPFS, and mint tokens.",
+      "inputs": ["normalized_catalog", "branding"],
+      "outputs": ["nft_metadata_bundle", "mint_report"],
+      "proofs": ["audit/proofs/workflows/nft_metadata_and_mint.json"],
+      "blocking": true
+    },
+    {
+      "id": "optik_token_configuration",
+      "agent": "token_agent",
+      "purpose": "Configure Optikcoin (OPTIK) incentives and fee routing.",
+      "inputs": ["tier_selection", "wallet_address"],
+      "outputs": ["token_config"],
+      "proofs": ["audit/proofs/workflows/optik_token_configuration.json"],
+      "blocking": false
+    },
+    {
+      "id": "deployment",
+      "agent": "backend_agent",
+      "purpose": "Deploy contracts, APIs, and storefront; attach domains.",
+      "inputs": ["storefront_build", "token_config"],
+      "outputs": ["deployment_report", "dapp_url"],
+      "proofs": ["audit/proofs/workflows/deployment.json"],
+      "blocking": true
+    },
+    {
+      "id": "verification",
+      "agent": "supervisor",
+      "purpose": "Run CTA checks, API contract audit, and compile proof bundle.",
+      "inputs": ["deployment_report"],
+      "outputs": ["cta_audit", "api_contract_audit", "proof_bundle"],
+      "proofs": ["audit/proofs/workflows/verification.json"],
+      "blocking": true
+    },
+    {
+      "id": "handover",
+      "agent": "onboarding_superagent",
+      "purpose": "Deliver final DApp, dashboard access, and completion proof to merchant.",
+      "inputs": ["dapp_url", "proof_bundle"],
+      "outputs": ["handover_receipt"],
+      "proofs": ["audit/proofs/workflows/handover.json"],
+      "blocking": true
+    }
+  ],
+  "proof_bundle": {
+    "required_artifacts": [
+      "audit/proofs/workflows/intake_gate.json",
+      "audit/proofs/workflows/credential_validation.json",
+      "audit/proofs/workflows/catalog_scrape.json",
+      "audit/proofs/workflows/catalog_analysis.json",
+      "audit/proofs/workflows/architecture_and_wireframes.json",
+      "audit/proofs/workflows/storefront_build.json",
+      "audit/proofs/workflows/nft_metadata_and_mint.json",
+      "audit/proofs/workflows/optik_token_configuration.json",
+      "audit/proofs/workflows/deployment.json",
+      "audit/proofs/workflows/verification.json",
+      "audit/proofs/workflows/handover.json"
+    ]
+  }
+}

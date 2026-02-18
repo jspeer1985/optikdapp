@@ -1,0 +1,765 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-17T10:04:21.239564+00:00",
+  "root": "/home/kali/Dapp_Optik/optik-platform/apps",
+  "files": [
+    {
+      "file": ".env.example",
+      "agent_id": "file_master_env_example",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/env_example.json"
+    },
+    {
+      "file": ".gitignore",
+      "agent_id": "file_master_gitignore",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/gitignore.json"
+    },
+    {
+      "file": ".nvmrc",
+      "agent_id": "file_master_nvmrc",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/nvmrc.json"
+    },
+    {
+      "file": "agents/contracts/api_endpoints.json",
+      "agent_id": "file_master_agents_contracts_api_endpoints_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_contracts_api_endpoints_json.json"
+    },
+    {
+      "file": "agents/manifest.json",
+      "agent_id": "file_master_agents_manifest_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_manifest_json.json"
+    },
+    {
+      "file": "agents/prompts/optik_gpt_claude.md",
+      "agent_id": "file_master_agents_prompts_optik_gpt_claude_md",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_optik_gpt_claude_md.json"
+    },
+    {
+      "file": "agents/prompts/optik_gpt_openai.md",
+      "agent_id": "file_master_agents_prompts_optik_gpt_openai_md",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_optik_gpt_openai_md.json"
+    },
+    {
+      "file": "agents/prompts/optik_gpt_shopify.md",
+      "agent_id": "file_master_agents_prompts_optik_gpt_shopify_md",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_optik_gpt_shopify_md.json"
+    },
+    {
+      "file": "agents/prompts/optik_gpt_system.md",
+      "agent_id": "file_master_agents_prompts_optik_gpt_system_md",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_optik_gpt_system_md.json"
+    },
+    {
+      "file": "agents/prompts/optik_gpt_tools.md",
+      "agent_id": "file_master_agents_prompts_optik_gpt_tools_md",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_optik_gpt_tools_md.json"
+    },
+    {
+      "file": "agents/prompts/registry.json",
+      "agent_id": "file_master_agents_prompts_registry_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_prompts_registry_json.json"
+    },
+    {
+      "file": "agents/proofs/schema.json",
+      "agent_id": "file_master_agents_proofs_schema_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_proofs_schema_json.json"
+    },
+    {
+      "file": "agents/registry.json",
+      "agent_id": "file_master_agents_registry_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_registry_json.json"
+    },
+    {
+      "file": "agents/workflows/merchant_dapp_creation.json",
+      "agent_id": "file_master_agents_workflows_merchant_dapp_creation_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_workflows_merchant_dapp_creation_json.json"
+    },
+    {
+      "file": "agents/workflows/merchant_intake_questions.json",
+      "agent_id": "file_master_agents_workflows_merchant_intake_questions_json",
+      "superagent": "folder_superagent_agents",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/agents_workflows_merchant_intake_questions_json.json"
+    },
+    {
+      "file": "app/api/dapps/register/route.ts",
+      "agent_id": "file_master_app_api_dapps_register_route_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_api_dapps_register_route_ts.json"
+    },
+    {
+      "file": "app/auth/page.tsx",
+      "agent_id": "file_master_app_auth_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_auth_page_tsx.json"
+    },
+    {
+      "file": "app/checkout/page.tsx",
+      "agent_id": "file_master_app_checkout_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_checkout_page_tsx.json"
+    },
+    {
+      "file": "app/components/OptikGPT/OptikGPT.tsx",
+      "agent_id": "file_master_app_components_optikgpt_optikgpt_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_optikgpt_optikgpt_tsx.json"
+    },
+    {
+      "file": "app/components/layout/DashboardHeader.tsx",
+      "agent_id": "file_master_app_components_layout_dashboardheader_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_layout_dashboardheader_tsx.json"
+    },
+    {
+      "file": "app/components/layout/DashboardTabs.tsx",
+      "agent_id": "file_master_app_components_layout_dashboardtabs_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_layout_dashboardtabs_tsx.json"
+    },
+    {
+      "file": "app/components/layout/Footer.tsx",
+      "agent_id": "file_master_app_components_layout_footer_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_layout_footer_tsx.json"
+    },
+    {
+      "file": "app/components/layout/Navbar.tsx",
+      "agent_id": "file_master_app_components_layout_navbar_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_layout_navbar_tsx.json"
+    },
+    {
+      "file": "app/components/ui/Button.tsx",
+      "agent_id": "file_master_app_components_ui_button_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_ui_button_tsx.json"
+    },
+    {
+      "file": "app/components/ui/Card.tsx",
+      "agent_id": "file_master_app_components_ui_card_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_ui_card_tsx.json"
+    },
+    {
+      "file": "app/components/ui/Input.tsx",
+      "agent_id": "file_master_app_components_ui_input_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_ui_input_tsx.json"
+    },
+    {
+      "file": "app/components/ui/Modal.tsx",
+      "agent_id": "file_master_app_components_ui_modal_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_ui_modal_tsx.json"
+    },
+    {
+      "file": "app/components/wallet/ConnectWallet.tsx",
+      "agent_id": "file_master_app_components_wallet_connectwallet_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_components_wallet_connectwallet_tsx.json"
+    },
+    {
+      "file": "app/context/AuthContext.tsx",
+      "agent_id": "file_master_app_context_authcontext_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_context_authcontext_tsx.json"
+    },
+    {
+      "file": "app/create-dapp/page-content.tsx",
+      "agent_id": "file_master_app_create_dapp_page_content_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_create_dapp_page_content_tsx.json"
+    },
+    {
+      "file": "app/create-dapp/page.tsx",
+      "agent_id": "file_master_app_create_dapp_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_create_dapp_page_tsx.json"
+    },
+    {
+      "file": "app/dapps/[id]/page.tsx",
+      "agent_id": "file_master_app_dapps_id_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dapps_id_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/analytics/page.tsx",
+      "agent_id": "file_master_app_dashboard_analytics_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_analytics_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/billing/history/page.tsx",
+      "agent_id": "file_master_app_dashboard_billing_history_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_billing_history_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/billing/page.tsx",
+      "agent_id": "file_master_app_dashboard_billing_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_billing_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/billing/subscription/page.tsx",
+      "agent_id": "file_master_app_dashboard_billing_subscription_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_billing_subscription_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/categories/page.tsx",
+      "agent_id": "file_master_app_dashboard_categories_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_categories_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/integrations/[id]/configure/page.tsx",
+      "agent_id": "file_master_app_dashboard_integrations_id_configure_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_integrations_id_configure_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/integrations/page.tsx",
+      "agent_id": "file_master_app_dashboard_integrations_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_integrations_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/layout.tsx",
+      "agent_id": "file_master_app_dashboard_layout_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_layout_tsx.json"
+    },
+    {
+      "file": "app/dashboard/liquidity/page.tsx",
+      "agent_id": "file_master_app_dashboard_liquidity_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_liquidity_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/logistics/page.tsx",
+      "agent_id": "file_master_app_dashboard_logistics_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_logistics_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/marketing/page.tsx",
+      "agent_id": "file_master_app_dashboard_marketing_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_marketing_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/merchant/page-content.tsx",
+      "agent_id": "file_master_app_dashboard_merchant_page_content_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_merchant_page_content_tsx.json"
+    },
+    {
+      "file": "app/dashboard/merchant/page.tsx",
+      "agent_id": "file_master_app_dashboard_merchant_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_merchant_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/mobile-app/page.tsx",
+      "agent_id": "file_master_app_dashboard_mobile_app_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_mobile_app_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/nft-creator/page.tsx",
+      "agent_id": "file_master_app_dashboard_nft_creator_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_nft_creator_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/products/[id]/edit/page.tsx",
+      "agent_id": "file_master_app_dashboard_products_id_edit_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_products_id_edit_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/products/[id]/royalties/page.tsx",
+      "agent_id": "file_master_app_dashboard_products_id_royalties_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_products_id_royalties_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/products/page.tsx",
+      "agent_id": "file_master_app_dashboard_products_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_products_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/proofs/page.tsx",
+      "agent_id": "file_master_app_dashboard_proofs_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_proofs_page_tsx.json"
+    },
+    {
+      "file": "app/dashboard/security/page.tsx",
+      "agent_id": "file_master_app_dashboard_security_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_dashboard_security_page_tsx.json"
+    },
+    {
+      "file": "app/drops/page.tsx",
+      "agent_id": "file_master_app_drops_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_drops_page_tsx.json"
+    },
+    {
+      "file": "app/globals.css",
+      "agent_id": "file_master_app_globals_css",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_globals_css.json"
+    },
+    {
+      "file": "app/hooks/useLocalStorage.ts",
+      "agent_id": "file_master_app_hooks_uselocalstorage_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_hooks_uselocalstorage_ts.json"
+    },
+    {
+      "file": "app/hooks/useToast.ts",
+      "agent_id": "file_master_app_hooks_usetoast_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_hooks_usetoast_ts.json"
+    },
+    {
+      "file": "app/hooks/useWalletBalance.ts",
+      "agent_id": "file_master_app_hooks_usewalletbalance_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_hooks_usewalletbalance_ts.json"
+    },
+    {
+      "file": "app/layout.tsx",
+      "agent_id": "file_master_app_layout_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_layout_tsx.json"
+    },
+    {
+      "file": "app/lib/api.ts",
+      "agent_id": "file_master_app_lib_api_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_lib_api_ts.json"
+    },
+    {
+      "file": "app/lib/optikGptPromptRegistry.ts",
+      "agent_id": "file_master_app_lib_optikgptpromptregistry_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_lib_optikgptpromptregistry_ts.json"
+    },
+    {
+      "file": "app/lib/solana.ts",
+      "agent_id": "file_master_app_lib_solana_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_lib_solana_ts.json"
+    },
+    {
+      "file": "app/lib/validation.ts",
+      "agent_id": "file_master_app_lib_validation_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_lib_validation_ts.json"
+    },
+    {
+      "file": "app/models/page.tsx",
+      "agent_id": "file_master_app_models_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_models_page_tsx.json"
+    },
+    {
+      "file": "app/optik-coin/page.tsx",
+      "agent_id": "file_master_app_optik_coin_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_optik_coin_page_tsx.json"
+    },
+    {
+      "file": "app/orchestrator/IMPLEMENTATION.md",
+      "agent_id": "file_master_app_orchestrator_implementation_md",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_orchestrator_implementation_md.json"
+    },
+    {
+      "file": "app/orchestrator/orchestrator.module.css",
+      "agent_id": "file_master_app_orchestrator_orchestrator_module_css",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_orchestrator_orchestrator_module_css.json"
+    },
+    {
+      "file": "app/orchestrator/page.tsx",
+      "agent_id": "file_master_app_orchestrator_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_orchestrator_page_tsx.json"
+    },
+    {
+      "file": "app/page.tsx",
+      "agent_id": "file_master_app_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_page_tsx.json"
+    },
+    {
+      "file": "app/payments/page.tsx",
+      "agent_id": "file_master_app_payments_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_payments_page_tsx.json"
+    },
+    {
+      "file": "app/payments/types/index.ts",
+      "agent_id": "file_master_app_payments_types_index_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_payments_types_index_ts.json"
+    },
+    {
+      "file": "app/privacy/page.tsx",
+      "agent_id": "file_master_app_privacy_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_privacy_page_tsx.json"
+    },
+    {
+      "file": "app/providers.tsx",
+      "agent_id": "file_master_app_providers_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_providers_tsx.json"
+    },
+    {
+      "file": "app/shipping/page.tsx",
+      "agent_id": "file_master_app_shipping_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_shipping_page_tsx.json"
+    },
+    {
+      "file": "app/store-preview/page.tsx",
+      "agent_id": "file_master_app_store_preview_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_store_preview_page_tsx.json"
+    },
+    {
+      "file": "app/terms/page.tsx",
+      "agent_id": "file_master_app_terms_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_terms_page_tsx.json"
+    },
+    {
+      "file": "app/utils/constants.ts",
+      "agent_id": "file_master_app_utils_constants_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_utils_constants_ts.json"
+    },
+    {
+      "file": "app/utils/format.ts",
+      "agent_id": "file_master_app_utils_format_ts",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_utils_format_ts.json"
+    },
+    {
+      "file": "app/verify/page.tsx",
+      "agent_id": "file_master_app_verify_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_verify_page_tsx.json"
+    },
+    {
+      "file": "app/whitepaper/page.tsx",
+      "agent_id": "file_master_app_whitepaper_page_tsx",
+      "superagent": "folder_superagent_app",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/app_whitepaper_page_tsx.json"
+    },
+    {
+      "file": "audit/optik-metadata.json",
+      "agent_id": "file_master_audit_optik_metadata_json",
+      "superagent": "folder_superagent_audit",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/audit_optik_metadata_json.json"
+    },
+    {
+      "file": "audit/optik-token.json",
+      "agent_id": "file_master_audit_optik_token_json",
+      "superagent": "folder_superagent_audit",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/audit_optik_token_json.json"
+    },
+    {
+      "file": "ecosystem.config.js",
+      "agent_id": "file_master_ecosystem_config_js",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/ecosystem_config_js.json"
+    },
+    {
+      "file": "firebase-debug.log",
+      "agent_id": "file_master_firebase_debug_log",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/firebase_debug_log.json"
+    },
+    {
+      "file": "managed_context/metadata.json",
+      "agent_id": "file_master_managed_context_metadata_json",
+      "superagent": "folder_superagent_managed_context",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/managed_context_metadata_json.json"
+    },
+    {
+      "file": "mcp_servers.json",
+      "agent_id": "file_master_mcp_servers_json",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/mcp_servers_json.json"
+    },
+    {
+      "file": "next-env.d.ts",
+      "agent_id": "file_master_next_env_d_ts",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/next_env_d_ts.json"
+    },
+    {
+      "file": "next.config.js",
+      "agent_id": "file_master_next_config_js",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/next_config_js.json"
+    },
+    {
+      "file": "package-lock.json",
+      "agent_id": "file_master_package_lock_json",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/package_lock_json.json"
+    },
+    {
+      "file": "package.json",
+      "agent_id": "file_master_package_json",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/package_json.json"
+    },
+    {
+      "file": "postcss.config.js",
+      "agent_id": "file_master_postcss_config_js",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/postcss_config_js.json"
+    },
+    {
+      "file": "public/README.md",
+      "agent_id": "file_master_public_readme_md",
+      "superagent": "folder_superagent_public",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/public_readme_md.json"
+    },
+    {
+      "file": "public/dapp-background.webp",
+      "agent_id": "file_master_public_dapp_background_webp",
+      "superagent": "folder_superagent_public",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/public_dapp_background_webp.json"
+    },
+    {
+      "file": "public/favicon.ico",
+      "agent_id": "file_master_public_favicon_ico",
+      "superagent": "folder_superagent_public",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/public_favicon_ico.json"
+    },
+    {
+      "file": "public/optik_bird.svg",
+      "agent_id": "file_master_public_optik_bird_svg",
+      "superagent": "folder_superagent_public",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/public_optik_bird_svg.json"
+    },
+    {
+      "file": "public/solana-bg.png",
+      "agent_id": "file_master_public_solana_bg_png",
+      "superagent": "folder_superagent_public",
+      "domain": "frontend",
+      "proof_path": "audit/proofs/files/public_solana_bg_png.json"
+    },
+    {
+      "file": "scripts/__pycache__/api_contract_audit.cpython-313.pyc",
+      "agent_id": "file_master_scripts_pycache_api_contract_audit_cpython_313_pyc",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_pycache_api_contract_audit_cpython_313_pyc.json"
+    },
+    {
+      "file": "scripts/agent_dispatch.py",
+      "agent_id": "file_master_scripts_agent_dispatch_py",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_agent_dispatch_py.json"
+    },
+    {
+      "file": "scripts/api_contract_audit.py",
+      "agent_id": "file_master_scripts_api_contract_audit_py",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_api_contract_audit_py.json"
+    },
+    {
+      "file": "scripts/cta_route_audit.py",
+      "agent_id": "file_master_scripts_cta_route_audit_py",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_cta_route_audit_py.json"
+    },
+    {
+      "file": "scripts/proof_audit.py",
+      "agent_id": "file_master_scripts_proof_audit_py",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_proof_audit_py.json"
+    },
+    {
+      "file": "scripts/start-prod.sh",
+      "agent_id": "file_master_scripts_start_prod_sh",
+      "superagent": "folder_superagent_scripts",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/scripts_start_prod_sh.json"
+    },
+    {
+      "file": "tailwind.config.js",
+      "agent_id": "file_master_tailwind_config_js",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/tailwind_config_js.json"
+    },
+    {
+      "file": "tsconfig.json",
+      "agent_id": "file_master_tsconfig_json",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/tsconfig_json.json"
+    },
+    {
+      "file": "tsconfig.tsbuildinfo",
+      "agent_id": "file_master_tsconfig_tsbuildinfo",
+      "superagent": "folder_superagent_root",
+      "domain": "platform",
+      "proof_path": "audit/proofs/files/tsconfig_tsbuildinfo.json"
+    }
+  ],
+  "folder_superagents": [
+    {
+      "id": "folder_superagent_agents",
+      "folder": "agents"
+    },
+    {
+      "id": "folder_superagent_app",
+      "folder": "app"
+    },
+    {
+      "id": "folder_superagent_audit",
+      "folder": "audit"
+    },
+    {
+      "id": "folder_superagent_managed_context",
+      "folder": "managed_context"
+    },
+    {
+      "id": "folder_superagent_public",
+      "folder": "public"
+    },
+    {
+      "id": "folder_superagent_root",
+      "folder": "root"
+    },
+    {
+      "id": "folder_superagent_scripts",
+      "folder": "scripts"
+    }
+  ]
+}

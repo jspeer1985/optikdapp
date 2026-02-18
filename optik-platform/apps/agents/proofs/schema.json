@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "file_proof": {
+    "required": [
+      "type",
+      "file",
+      "owner_agent",
+      "changes",
+      "checks",
+      "links_ok",
+      "api_ok",
+      "timestamp"
+    ],
+    "type": "file"
+  },
+  "workflow_proof": {
+    "required": [
+      "type",
+      "workflow_id",
+      "status",
+      "steps",
+      "artifacts",
+      "timestamp"
+    ],
+    "type": "workflow"
+  }
+}

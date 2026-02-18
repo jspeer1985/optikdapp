@@ -1,0 +1,121 @@
+{
+  "version": "1.0",
+  "project": "optik-platform",
+  "root": ".",
+  "supervisor_agent": {
+    "id": "supervisor",
+    "role": "Distribute work across agents, gate releases, and audit proof of completion for every touched file.",
+    "tools": [
+      "scripts/agent_dispatch.py",
+      "scripts/ai_pipeline.py",
+      "scripts/proof_audit.py",
+      "scripts/cta_route_audit.py",
+      "scripts/api_contract_audit.py"
+    ],
+    "proof_required": true
+  },
+  "domain_agents": [
+    {
+      "id": "frontend_agent",
+      "scope": ["app", "src", "public"],
+      "responsibilities": [
+        "UI/UX", "Next.js routing", "CTA integrity", "OptikGPT placement"
+      ],
+      "skills": ["nextjs", "tailwind", "cta-route-audit"]
+    },
+    {
+      "id": "backend_agent",
+      "scope": ["../backend"],
+      "responsibilities": [
+        "API contracts", "worker queues", "security gates", "proof artifacts"
+      ],
+      "skills": ["fastapi", "stripe", "solana", "redis", "rq"]
+    },
+    {
+      "id": "marketing_agent",
+      "scope": ["app/dashboard/marketing", "app/marketing"],
+      "responsibilities": [
+        "Campaign workflows", "growth analytics", "content pipelines"
+      ],
+      "skills": ["campaign-ops", "copy-qa", "growth-analytics"]
+    },
+    {
+      "id": "nft_minter_agent",
+      "scope": ["app/dashboard/nft-creator", "app/optik-coin"],
+      "responsibilities": [
+        "NFT metadata", "minting flows", "IPFS/Pinata handling", "Optik token work"
+      ],
+      "skills": ["metaplex", "ipfs", "token-metadata"]
+    }
+  ],
+  "specialist_agents": [
+    {
+      "id": "onboarding_superagent",
+      "responsibilities": [
+        "Merchant intake", "agreement capture", "Stripe onboarding gate"
+      ]
+    },
+    {
+      "id": "scraper_agent",
+      "responsibilities": [
+        "Shopify GPT ingestion", "web scraping", "catalog capture"
+      ]
+    },
+    {
+      "id": "catalog_analyzer_agent",
+      "responsibilities": [
+        "Metadata enrichment", "category mapping", "pricing normalization"
+      ]
+    },
+    {
+      "id": "token_agent",
+      "responsibilities": [
+        "Optikcoin (OPTIK) config", "fee routing", "reward setup"
+      ]
+    },
+    {
+      "id": "optik_gpt_agent",
+      "responsibilities": [
+        "Merchant-facing AI guidance", "workflow routing", "smart assistance on every page"
+      ]
+    }
+  ],
+  "folder_superagent_policy": {
+    "strategy": "one-superagent-per-top-level-folder",
+    "owner_prefix": "folder_superagent",
+    "default_responsibilities": [
+      "Enforce folder standards",
+      "Aggregate file proofs",
+      "Coordinate file masters"
+    ]
+  },
+  "file_master_policy": {
+    "strategy": "one-file-one-agent",
+    "agent_id_prefix": "file_master",
+    "proof_schema": "agents/proofs/schema.json",
+    "proofs_dir": "audit/proofs/files"
+  },
+  "domain_rules": {
+    "frontend": ["app/", "src/", "public/"],
+    "backend": ["../backend/"],
+    "marketing": ["app/dashboard/marketing/", "app/marketing/"],
+    "nft": ["app/dashboard/nft-creator/", "app/optik-coin/"]
+  },
+  "workflow_registry": [
+    "agents/workflows/merchant_dapp_creation.json",
+    "agents/workflows/ai_pipeline.json"
+  ],
+  "contracts": {
+    "api": "agents/contracts/api_endpoints.json"
+  },
+  "prompts": {
+    "registry": "agents/prompts/registry.json"
+  },
+  "tools": {
+    "dispatch": "scripts/agent_dispatch.py",
+    "ai_pipeline": "scripts/ai_pipeline.py",
+    "proof_audit": "scripts/proof_audit.py",
+    "cta_audit": "scripts/cta_route_audit.py",
+    "api_contract_audit": "scripts/api_contract_audit.py"
+  }
+}

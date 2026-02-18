@@ -1,0 +1,34 @@
+{
+  "workflow_id": "ai_file_audit_v1",
+  "title": "AI File Audit Pipeline",
+  "description": "Per-file AI audits with supervisor verification for enterprise readiness.",
+  "steps": [
+    {
+      "id": "registry_sync",
+      "agent": "supervisor",
+      "purpose": "Generate the file registry and assign file master agents.",
+      "outputs": ["agents/registry.json"],
+      "blocking": true
+    },
+    {
+      "id": "file_audit",
+      "agent": "file_master",
+      "purpose": "Run a Claude-based review for each file and emit proof artifacts.",
+      "outputs": ["audit/proofs/files"],
+      "blocking": true
+    },
+    {
+      "id": "supervisor_verification",
+      "agent": "supervisor",
+      "purpose": "Verify audits and emit the workflow proof bundle.",
+      "outputs": ["audit/proofs/workflows/verification.json"],
+      "blocking": true
+    }
+  ],
+  "proof_bundle": {
+    "required_artifacts": [
+      "agents/registry.json",
+      "audit/proofs/workflows/verification.json"
+    ]
+  }
+}

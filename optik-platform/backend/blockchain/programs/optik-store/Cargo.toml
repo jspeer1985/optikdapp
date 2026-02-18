@@ -1,0 +1,35 @@
+[package]
+name = "optik-store"
+version = "0.1.0"
+description = "Optik Platform E-commerce Program"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "optik_store"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.29.0"
+anchor-spl = "0.29.0"
+constant_time_eq = "=0.1.5"
+solana-program = "=1.17.0"
+
+[patch.crates-io]
+# Removing git patch as it's failing to fetch; using precise version in dependencies instead
+
+
+
+
+
+
+
+
+
+

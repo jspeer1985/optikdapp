@@ -1,0 +1,41 @@
+{
+  "name": "optik-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3003",
+    "build": "next build",
+    "start": "next start",
+    "start:prod": "NODE_ENV=production next start -p ${PORT:-3000}",
+    "start:pm2": "pm2 start ecosystem.config.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
+    "@metaplex-foundation/umi": "^1.5.1",
+    "@metaplex-foundation/umi-bundle-defaults": "^1.5.1",
+    "@prisma/client": "^7.4.0",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-react-ui": "^0.9.39",
+    "@solana/wallet-adapter-wallets": "^0.19.37",
+    "@solana/web3.js": "^1.98.4",
+    "bs58": "^5.0.0",
+    "framer-motion": "^12.34.0",
+    "next": "^14.0.0",
+    "prisma": "^7.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.16",
+    "pino-pretty": "^9.0.0",
+    "pm2": "^5.3.0",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5.0.0"
+  }
+}

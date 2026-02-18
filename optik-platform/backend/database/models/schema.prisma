@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  wallet    String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  stores    Store[]
+}
+
+model Store {
+  id            String   @id @default(cuid())
+  name          String
+  originalUrl   String?
+  platform      String?  // shopify, woocommerce
+  convertedStatus String @default("pending") // pending, completed, failed
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  products      Product[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Product {
+  id           String   @id @default(cuid())
+  title        String
+  description  String
+  priceUsd     Float
+  priceSol     Float?
+  imageUrl     String?
+  nftMintAddr  String?
+  storeId      String
+  store        Store    @relation(fields: [storeId], references: [id])
+  metadata     Json?    // Stores NFT metadata and marketing hooks
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ConversionJob {
+  id        String   @id @default(cuid())
+  jobId     String   @unique
+  status    String
+  progress  Int      @default(0)
+  result    Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

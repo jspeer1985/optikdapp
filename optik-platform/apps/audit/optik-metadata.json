@@ -1,0 +1,20 @@
+{
+  "name": "Optik Platform",
+  "symbol": "OPTK",
+  "description": "Optik — Web3 infrastructure for Solana builders",
+  "image": "https://example.com/images/optik.png",
+  "external_url": "https://optikcoin.com",
+  "attributes": [
+    { "trait_type": "Network", "value": "Solana" },
+    { "trait_type": "Category", "value": "Infrastructure" }
+  ],
+  "properties": {
+    "files": [
+      { "uri": "https://example.com/images/optik.png", "type": "image/png" }
+    ],
+    "category": "image",
+    "creators": [
+      { "address": "ReplaceWithCreatorPubkey", "share": 100 }
+    ]
+  }
+}

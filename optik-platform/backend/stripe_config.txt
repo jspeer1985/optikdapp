@@ -1,0 +1,22 @@
+
+# ============================================
+# STRIPE CONFIGURATION (ADD TO YOUR .env)
+# ============================================
+
+# Your existing Stripe keys
+STRIPE_SECRET_KEY=sk_test_...  # Your test secret key
+STRIPE_PUBLISHABLE_KEY=pk_test_...  # Your test publishable key
+STRIPE_WEBHOOK_SECRET=whsec_...  # From webhook creation
+
+# Product Price IDs (copy from output above)
+STRIPE_STARTER_PRICE_ID=price_...
+STRIPE_GROWTH_PRICE_ID=price_...
+STRIPE_PRO_PRICE_ID=price_...
+STRIPE_NFT_MINTING_PRICE_ID=price_...
+STRIPE_TOKEN_REWARDS_PRICE_ID=price_...
+
+# Connect Account (for marketplace)
+STRIPE_CONNECT_ACCOUNT_ID=acct_...
+
+# Webhook endpoint
+STRIPE_WEBHOOK_URL=https://your-domain.com/api/webhooks/stripe

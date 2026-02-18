@@ -1,0 +1,266 @@
+.
+├── artifacts
+│   ├── artifacts.d.ts
+│   ├── build-info
+│   │   ├── solc-0_8_28-32438f39b8c4f4b3ef8a0d08f934979311913f21.json
+│   │   └── solc-0_8_28-32438f39b8c4f4b3ef8a0d08f934979311913f21.output.json
+│   └── contracts
+│       ├── Counter.sol
+│       │   ├── artifacts.d.ts
+│       │   └── Counter.json
+│       └── src
+│           ├── MerchantRegistry.sol
+│           │   ├── artifacts.d.ts
+│           │   └── MerchantRegistry.json
+│           ├── OptikCoin.sol
+│           │   ├── artifacts.d.ts
+│           │   └── OptikCoin.json
+│           ├── PairedNFT.sol
+│           │   ├── artifacts.d.ts
+│           │   └── PairedNFT.json
+│           └── PairingRouter.sol
+│               ├── artifacts.d.ts
+│               ├── IMerchantRegistry.json
+│               ├── IPairedNFT.json
+│               └── PairingRouter.json
+├── cache
+│   ├── build-info
+│   ├── compile-cache.json
+│   └── test-artifacts
+│       ├── build-info
+│       │   ├── solc-0_8_28-9c46ce46fc521eac47ad23f52973b7968c150150.json
+│       │   └── solc-0_8_28-9c46ce46fc521eac47ad23f52973b7968c150150.output.json
+│       └── contracts
+│           └── Counter.t.sol
+│               └── CounterTest.json
+├── contracts
+│   ├── Counter.sol
+│   ├── Counter.t.sol
+│   ├── scripts
+│   │   └── deploy.ts
+│   ├── src
+│   │   ├── MerchantRegistry.sol
+│   │   ├── OptikCoin.sol
+│   │   ├── PairedNFT.sol
+│   │   └── PairingRouter.sol
+│   └── test
+│       └── pairing.test.ts
+├── hardhat.config.ts
+├── ignition
+│   └── modules
+│       └── Counter.ts
+├── mkdir
+├── optik_dapp
+│   ├── Anchor.toml
+│   ├── app
+│   ├── Cargo.toml
+│   ├── migrations
+│   │   └── deploy.ts
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── programs
+│   │   └── optik_dapp
+│   │       ├── Cargo.toml
+│   │       ├── src
+│   │       │   └── lib.rs
+│   │       └── Xargo.toml
+│   ├── tests
+│   │   └── optik_dapp.ts
+│   └── tsconfig.json
+├── optik-platform
+│   ├── Anchor.toml
+│   ├── API_DOCUMENTATION.md
+│   ├── apps
+│   │   ├── docker-compose.yml
+│   │   ├── Dockerfile
+│   │   ├── next.config.js
+│   │   ├── next-env.d.ts
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── postcss.config.js
+│   │   ├── PROJECT_STRUCTURE.txt
+│   │   ├── public
+│   │   │   ├── icons
+│   │   │   ├── images
+│   │   │   └── optik_bird.svg
+│   │   ├── README.md
+│   │   ├── SETUP.md
+│   │   ├── src
+│   │   │   ├── api
+│   │   │   │   ├── controllers
+│   │   │   │   ├── routes
+│   │   │   │   └── webhooks
+│   │   │   ├── app
+│   │   │   │   ├── api
+│   │   │   │   ├── auth
+│   │   │   │   ├── dashboard
+│   │   │   │   ├── globals.css
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── pricing
+│   │   │   │   ├── providers.tsx
+│   │   │   │   └── security
+│   │   │   ├── components
+│   │   │   │   ├── checkout
+│   │   │   │   ├── dashboard
+│   │   │   │   ├── features
+│   │   │   │   ├── forms
+│   │   │   │   ├── hero
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── layout
+│   │   │   │   ├── pricing
+│   │   │   │   ├── ui
+│   │   │   │   └── wallet
+│   │   │   ├── config
+│   │   │   │   └── production.ts
+│   │   │   ├── context
+│   │   │   │   ├── AuthContext.tsx
+│   │   │   │   ├── ToastContext.tsx
+│   │   │   │   └── WalletContext.tsx
+│   │   │   ├── hooks
+│   │   │   │   ├── useAuth.ts
+│   │   │   │   ├── useDisclosure.ts
+│   │   │   │   ├── useLocalStorage.ts
+│   │   │   │   └── useWallet.ts
+│   │   │   ├── lib
+│   │   │   │   ├── admin
+│   │   │   │   ├── auth
+│   │   │   │   ├── auth-middleware.ts
+│   │   │   │   ├── bcrypt.ts
+│   │   │   │   ├── blockchain
+│   │   │   │   ├── crosschain
+│   │   │   │   ├── defi
+│   │   │   │   ├── deployment
+│   │   │   │   ├── documentation
+│   │   │   │   ├── errors.ts
+│   │   │   │   ├── gateway
+│   │   │   │   ├── governance
+│   │   │   │   ├── jwt.ts
+│   │   │   │   ├── logger.ts
+│   │   │   │   ├── marketplace
+│   │   │   │   ├── mongodb.ts
+│   │   │   │   ├── monitoring
+│   │   │   │   ├── payments
+│   │   │   │   ├── realtime
+│   │   │   │   ├── revenue.ts
+│   │   │   │   ├── solana.ts
+│   │   │   │   ├── storage
+│   │   │   │   ├── testing
+│   │   │   │   ├── utils.ts
+│   │   │   │   ├── validation.ts
+│   │   │   │   ├── wallet.ts
+│   │   │   │   └── web3
+│   │   │   ├── services
+│   │   │   │   ├── authService.ts
+│   │   │   │   ├── index.ts
+│   │   │   │   ├── merchantService.ts
+│   │   │   │   ├── nftService.ts
+│   │   │   │   ├── optikCoinService.ts
+│   │   │   │   ├── orderService.ts
+│   │   │   │   ├── paymentService.ts
+│   │   │   │   ├── productService.ts
+│   │   │   │   ├── storeService.ts
+│   │   │   │   ├── transactionService.ts
+│   │   │   │   └── userService.ts
+│   │   │   ├── types
+│   │   │   │   └── index.ts
+│   │   │   └── utils
+│   │   │       ├── constants.ts
+│   │   │       ├── errors.ts
+│   │   │       ├── helpers.ts
+│   │   │       ├── index.ts
+│   │   │       └── validators.ts
+│   │   ├── tailwind.config.js
+│   │   ├── tsconfig.json
+│   │   ├── vercel.json
+│   │   ├── VERIFICATION.md
+│   │   └── verify.ts
+│   ├── AUDIT_DOCUMENTS_INDEX.md
+│   ├── AUDIT_SUMMARY_FOR_MERCHANTS.md
+│   ├── BUILD_COMPLETE.md
+│   ├── BUILD_COMPLETION_REPORT.md
+│   ├── Cargo.lock
+│   ├── Cargo.toml
+│   ├── COMPLETE_FILE_TREE.md
+│   ├── COMPREHENSIVE_AUDIT_REPORT.md
+│   ├── contracts
+│   │   ├── Escrow.sol
+│   │   ├── MultiSigWallet.sol
+│   │   ├── Payout.sol
+│   │   ├── RoyaltyRegistry.sol
+│   │   ├── Royalty.sol
+│   │   ├── scripts
+│   │   │   ├── deploy.ts
+│   │   │   └── verify-contracts.ts
+│   │   └── temp_exclude
+│   │       ├── GovernanceDAO.sol
+│   │       ├── Marketplace.sol
+│   │       ├── MembershipNFT.sol
+│   │       ├── PriceOracle.sol
+│   │       └── StakingRewards.sol
+│   ├── DAPP_WORKFLOW_AUDIT.md
+│   ├── database
+│   │   └── migrations
+│   │       ├── 005_create_settlements.sql
+│   │       ├── 006_create_royalties.sql
+│   │       ├── 007_create_merchant_tiers.sql
+│   │       └── 008_create_refunds.sql
+│   ├── DELIVERY_SUMMARY.md
+│   ├── DEPLOYMENT_REQUIREMENTS.md
+│   ├── FILES_CREATED_THIS_SESSION.md
+│   ├── IMPLEMENTATION_COMPLETE.md
+│   ├── IMPLEMENTATION_ROADMAP.md
+│   ├── IMPLEMENTATION_VERIFICATION_REPORT.md
+│   ├── INSTALLATION_DIRECTIONS.md
+│   ├── MASTER_BUILD_SUMMARY.txt
+│   ├── migrations
+│   │   └── deploy.ts
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── PATH_SETUP.md
+│   ├── PAYMENT_SERVICES_INTEGRATION_GUIDE.md
+│   ├── PAYMENT_SYSTEM_FIXES.md
+│   ├── PAYMENT_SYSTEM_IMPLEMENTATION_STATUS.md
+│   ├── pnpm-lock.yaml
+│   ├── PRODUCTION_DEPLOYMENT.md
+│   ├── PRODUCTION_FEATURES_IMPLEMENTED.md
+│   ├── programs
+│   │   └── optik_platform
+│   │       ├── Cargo.toml
+│   │       ├── keypair.json
+│   │       └── src
+│   │           ├── errors.rs
+│   │           ├── instructions
+│   │           ├── lib.rs
+│   │           └── state
+│   ├── PROJECT_FILE_TREE_WITH_AUDIT.md
+│   ├── QUICK_START.md
+│   ├── README.md
+│   ├── scripts
+│   │   ├── create_collection.ts
+│   │   ├── create_token.ts
+│   │   ├── mint_optikcoin.ts
+│   │   └── verify_deploy.ts
+│   ├── SMART_CONTRACTS_DEPLOYMENT_GUIDE.md
+│   ├── tests
+│   │   ├── integration
+│   │   │   └── completePaymentFlow.integration.test.ts
+│   │   ├── merchant_flow.ts
+│   │   ├── nft_pairing.ts
+│   │   ├── payment_flow.ts
+│   │   └── unit
+│   │       ├── merchantPayoutEngine.test.ts
+│   │       └── paymentVerification.test.ts
+│   ├── TESTS_AND_DATABASE_SUMMARY.md
+│   └── tsconfig.json
+├── package.json
+├── package-lock.json
+├── project_structure.txt
+├── README.md
+├── scripts
+│   └── send-op-tx.ts
+├── test
+│   └── Counter.ts
+└── tsconfig.json
+
+96 directories, 168 files
