@@ -113,7 +113,7 @@ if rate_limit_enabled:
 # 5. CORS Configuration (last, so it can process other middleware headers)
 cors_origin_env = os.getenv("CORS_ORIGIN")
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3003")
-cors_origins = (cors_origin_env or f"{frontend_url},http://localhost:3000").split(",")
+cors_origins = (cors_origin_env or f"{frontend_url},http://localhost:3000,http://127.0.0.1:3003,http://127.0.0.1:40349").split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
