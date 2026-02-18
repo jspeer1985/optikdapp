@@ -14,7 +14,7 @@ from api.auth_routes import router as auth_router
 
 if not allow_demo_data():
     raise RuntimeError(
-        "simple_server is demo-only. Set OPTIK_ALLOW_DEMO_DATA=true and ENVIRONMENT!=production to run."
+        "simple_server is demo-only. Set OPTIK_ALLOW_DEMO_DATA=true to run."
     )
 
 app = FastAPI(
