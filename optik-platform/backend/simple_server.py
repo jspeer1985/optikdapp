@@ -10,6 +10,7 @@ import os
 from datetime import datetime
 import stripe
 from utils.env import allow_demo_data
+from api.auth_routes import router as auth_router
 
 if not allow_demo_data():
     raise RuntimeError(
@@ -35,6 +36,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include authentication routes
+app.include_router(auth_router)
 
 # Pricing plans
 PRICING_PLANS = {
