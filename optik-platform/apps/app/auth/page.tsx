@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, Suspense } from 'react';
+import { FormEvent, Suspense, useEffect, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import Button from '@/components/ui/Button';
@@ -10,15 +10,33 @@ import bs58 from 'bs58';
 import { api } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 
+function parseApiErrorMessage(error: unknown, fallback: string) {
+    if (!(error instanceof Error)) return fallback;
+
+    const apiErrorMatch = error.message.match(/^API \d+:\s*([\s\S]+)$/);
+    if (!apiErrorMatch) return error.message || fallback;
+
+    const payload = apiErrorMatch[1]?.trim();
+    if (!payload) return error.message || fallback;
+
+    try {
+        const parsed = JSON.parse(payload) as { detail?: string };
+        return parsed.detail || error.message || fallback;
+    } catch {
+        return payload;
+    }
+}
+
 function AuthPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const { connected, publicKey, signMessage } = useWallet();
+    const { connected, publicKey, signMessage, connecting } = useWallet();
     const { setUser } = useAuth();
     const [mode, setMode] = useState<'merchant' | 'customer'>('merchant');
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [walletError, setWalletError] = useState<string | null>(null);
 
     useEffect(() => {
         const token = searchParams.get('token');
@@ -35,7 +53,11 @@ function AuthPageContent() {
         }).finally(() => setLoading(false));
     }, [searchParams, router, setUser]);
 
-    const handleEmailSubmit = async (e: React.FormEvent) => {
+    useEffect(() => {
+        if (connected) setWalletError(null);
+    }, [connected, publicKey]);
+
+    const handleEmailSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setStatus(null);
@@ -57,20 +79,35 @@ function AuthPageContent() {
     };
 
     const handleWalletLogin = async () => {
-        if (!publicKey || !signMessage) {
-            setStatus('Wallet does not support message signing');
+        setWalletError(null);
+        setStatus(null);
+        
+        if (connecting) {
+            setWalletError('Wallet is still connecting. Please wait a moment and try again.');
             return;
         }
+
+        if (!connected || !publicKey) {
+            setWalletError('Wallet not connected. Please connect your wallet first.');
+            return;
+        }
+        
+        if (!signMessage) {
+            setWalletError('Wallet does not support message signing. Please try a different wallet.');
+            return;
+        }
+        
         setLoading(true);
-        setStatus(null);
         try {
             const nonceRes = await api<{ nonce: string; message: string }>('/api/v1/auth/wallet/nonce', {
                 method: 'POST',
                 body: JSON.stringify({ wallet_address: publicKey.toBase58() }),
             });
+
             const messageBytes = new TextEncoder().encode(nonceRes.message);
             const signatureBytes = await signMessage(messageBytes);
             const signature = bs58.encode(signatureBytes);
+
             const verifyRes = await api<{ user: any }>('/api/v1/auth/wallet/verify', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -80,10 +117,17 @@ function AuthPageContent() {
                     email: email || undefined,
                 }),
             });
+
             setUser(verifyRes.user);
-            router.push('/dashboard/merchant');
-        } catch (err: any) {
-            setStatus(err.message || 'Wallet sign-in failed');
+            
+            // Route based on mode
+            const redirectPath = mode === 'merchant' ? '/dashboard/merchant' : '/dashboard/customer';
+            router.push(redirectPath);
+            
+        } catch (err: unknown) {
+            const errorMessage = parseApiErrorMessage(err, 'Wallet sign-in failed');
+            setWalletError(errorMessage);
+            setStatus(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -152,9 +196,21 @@ function AuthPageContent() {
                                 </div>
 
                                 {connected && (
-                                    <Button className="w-full h-16 text-lg font-bold" onClick={handleWalletLogin} loading={loading}>
+                                    <Button 
+                                        type="button"
+                                        className="w-full h-16 text-lg font-bold" 
+                                        onClick={handleWalletLogin} 
+                                        loading={loading}
+                                        disabled={!publicKey || !signMessage || connecting}
+                                    >
                                         Sign In with Wallet →
                                     </Button>
+                                )}
+                                
+                                {walletError && (
+                                    <div className="w-full p-3 bg-red-500/10 border border-red-500/20 rounded-xl">
+                                        <p className="text-red-400 text-sm text-center">{walletError}</p>
+                                    </div>
                                 )}
                             </div>
 
@@ -200,6 +256,26 @@ function AuthPageContent() {
                             <div className="flex justify-center">
                                 <WalletMultiButton className="!bg-white/5 !border !border-white/10 !rounded-2xl !h-14 !px-8 !text-sm !font-bold hover:!bg-white/10 transition-all" />
                             </div>
+                            
+                            {connected && (
+                                <div className="flex justify-center mt-4">
+                                    <Button 
+                                        type="button"
+                                        className="w-full h-14 text-base font-bold" 
+                                        onClick={handleWalletLogin} 
+                                        loading={loading}
+                                        disabled={!publicKey || !signMessage || connecting}
+                                    >
+                                        Authenticate with Wallet
+                                    </Button>
+                                </div>
+                            )}
+                            
+                            {walletError && (
+                                <div className="w-full p-3 bg-red-500/10 border border-red-500/20 rounded-xl mt-4">
+                                    <p className="text-red-400 text-sm text-center">{walletError}</p>
+                                </div>
+                            )}
                         </form>
                     )}
 

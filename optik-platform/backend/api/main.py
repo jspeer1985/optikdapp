@@ -4,6 +4,7 @@ Enterprise-grade FastAPI application for Web2→Web3 e-commerce conversion
 """
 
 import os
+from pathlib import Path
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,6 +14,10 @@ import uvicorn
 import logging
 from datetime import datetime
 import asyncio
+from dotenv import load_dotenv
+
+# Always load backend/.env regardless of the current working directory.
+load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
 # Import security middleware
 from middleware.rate_limiter import RateLimitMiddleware
@@ -35,7 +40,7 @@ from agents.growth_agent import GrowthAgent # Assuming GrowthAgent is in agents/
 from pipelines.conversion_pipeline import ConversionPipeline
 from utils.database import DatabaseManager, db
 from utils.redis_manager import redis
-from utils.auth import verify_api_key, get_current_user
+from utils.auth import verify_api_key, get_current_user, get_optional_user
 from api.payment_routes import router as payments_router
 from api.auth_routes import router as auth_router
 from api.connect_routes import router as connect_router
@@ -242,7 +247,7 @@ class ChatResponse(BaseModel):
 # ============================================================================
 
 @app.post("/api/v1/assistant/chat", response_model=ChatResponse)
-async def chat_with_assistant(request: ChatRequest, user = Depends(get_current_user)):
+async def chat_with_assistant(request: ChatRequest, user = Depends(get_optional_user)):
     """
     Chat with OptikGPT Assistant
     """
@@ -254,8 +259,9 @@ async def chat_with_assistant(request: ChatRequest, user = Depends(get_current_u
         }
         
     try:
+        merchant_id = request.merchant_id or (user.id if user else "guest_merchant")
         response = await optik_assistant.handle_message(
-            merchant_id=request.merchant_id,
+            merchant_id=merchant_id,
             message=request.message,
             context={
                 "prompt_profile": request.prompt_profile,

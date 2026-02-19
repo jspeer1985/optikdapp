@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "title": "Scale your Web3 Dreams on Solana",
+        "subtitle": "The all-in-one Web3 infrastructure for building, launching, and scaling your decentralized applications",
+        "button_text": "Start Building",
+        "button_url": "/create-dapp",
+        "background_style": "gradient-1"
+      }
+    },
+    "features": {
+      "type": "page",
+      "settings": {
+        "page_title": "Optik Platform",
+        "page_content": "<h2>Powerful backend for modern Web3 builders</h2><p>Optik Platform is a comprehensive Web3 infrastructure provider that enables developers and businesses to build, deploy, and scale decentralized applications without complexity.</p><div class='optik-features'><div class='feature-card glass'><h3>⚡</h3><h4>Instant Deployment</h4><p>Launch your dapp in minutes with pre-built infrastructure.</p></div><div class='feature-card glass'><h3>🔒</h3><h4>Enterprise Security</h4><p>Audited smart contracts and military-grade encryption.</p></div><div class='feature-card glass'><h3>📈</h3><h4>Scale Effortlessly</h4><p>Millions of transactions with Solana infrastructure.</p></div></div>"
+      }
+    },
+    "stats": {
+      "type": "page",
+      "settings": {
+        "page_title": "Platform Statistics",
+        "page_content": "<div class='optik-stats'><div class='stat'>$2.5B+</div><div class='label'>Volume Processed</div></div><div class='stat'>10k+</div><div class='label'>Active Dapps</div></div><div class='stat'>0.1s</div><div class='label'>Settlement Time</div></div><div class='stat'>99.9%</div><div class='label'>Uptime SLA</div></div>"
+      }
+    },
+    "products": {
+      "type": "product-grid",
+      "settings": {
+        "products_per_row": 4,
+        "view_mode": "grid"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "features",
+    "products"
+  ]
+}

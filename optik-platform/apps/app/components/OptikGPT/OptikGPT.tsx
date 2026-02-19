@@ -5,12 +5,34 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
-import { OPTIK_DEFAULT_PROMPT } from '@/lib/optikGptPromptRegistry';
 
 interface Message {
     role: 'user' | 'assistant';
     content: string;
     actions?: string[];
+}
+
+type AssistantChatResponse = {
+    message: string;
+    actions?: string[];
+    status?: string;
+};
+
+function parseApiErrorMessage(error: unknown, fallback: string) {
+    if (!(error instanceof Error)) return fallback;
+
+    const apiErrorMatch = error.message.match(/^API \d+:\s*([\s\S]+)$/);
+    if (!apiErrorMatch) return error.message || fallback;
+
+    const payload = apiErrorMatch[1]?.trim();
+    if (!payload) return error.message || fallback;
+
+    try {
+        const parsed = JSON.parse(payload) as { detail?: string };
+        return parsed.detail || error.message || fallback;
+    } catch {
+        return payload;
+    }
 }
 
 export default function OptikGPT() {
@@ -19,6 +41,7 @@ export default function OptikGPT() {
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [modelPreference, setModelPreference] = useState<string | null>(null);
+    const [guestMerchantId, setGuestMerchantId] = useState('guest_merchant');
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const { user } = useAuth();
     const pathname = usePathname();
@@ -32,35 +55,70 @@ export default function OptikGPT() {
     }, [messages]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
+        if (typeof window === 'undefined') return;
+
+        const syncPreference = () => {
             const stored = window.localStorage.getItem('optik_model_mode');
             setModelPreference(stored || null);
+        };
+
+        const onStorage = (event: StorageEvent) => {
+            if (event.key === 'optik_model_mode') {
+                setModelPreference(event.newValue || null);
+            }
+        };
+
+        syncPreference();
+        window.addEventListener('focus', syncPreference);
+        window.addEventListener('storage', onStorage);
+
+        return () => {
+            window.removeEventListener('focus', syncPreference);
+            window.removeEventListener('storage', onStorage);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        const storageKey = 'optik_guest_merchant_id';
+        let storedId = window.localStorage.getItem(storageKey);
+
+        if (!storedId) {
+            const suffix =
+                typeof crypto !== 'undefined' && 'randomUUID' in crypto
+                    ? crypto.randomUUID().replace(/-/g, '').slice(0, 12)
+                    : Math.random().toString(36).slice(2, 14);
+            storedId = `guest_${suffix}`;
+            window.localStorage.setItem(storageKey, storedId);
         }
+
+        setGuestMerchantId(storedId);
     }, []);
 
     const handleSendMessage = async () => {
         if (!inputValue.trim()) return;
-        if (!user) {
-            setMessages(prev => [...prev, { role: 'assistant', content: '🚀 Connect your wallet to access Optik Ultimate AI - The most intelligent assistant in the universe with Claude + GPT-4 + Shopify expertise!' }]);
-            return;
-        }
 
         const userMessage: Message = { role: 'user', content: inputValue };
         setMessages(prev => [...prev, userMessage]);
         setInputValue('');
         setIsLoading(true);
 
+        const merchantId = user?.id || guestMerchantId;
+
         try {
-            const data = await api<{ message: string; actions?: string[] }>('/api/optik-ultimate/chat', {
+            const data = await api<AssistantChatResponse>('/api/v1/assistant/chat', {
                 method: 'POST',
                 body: JSON.stringify({
                     message: userMessage.content,
-                    merchant_id: user.id,
+                    merchant_id: merchantId,
+                    page_context: pathname,
+                    assistant_mode: 'enterprise',
+                    model_preference: modelPreference || 'balanced',
                     context: {
                         page_context: pathname,
-                        assistant_mode: 'enterprise',
-                        use_ensemble: true,
-                        include_market_data: true
+                        source: 'optik_gpt_widget',
+                        authenticated: Boolean(user),
                     }
                 }),
             });
@@ -72,9 +130,9 @@ export default function OptikGPT() {
             };
 
             setMessages(prev => [...prev, assistantMessage]);
-        } catch (error) {
-            console.error('Failed to send message:', error);
-            setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm offline right now." }]);
+        } catch (error: unknown) {
+            const fallbackMessage = parseApiErrorMessage(error, "Sorry, I'm offline right now.");
+            setMessages(prev => [...prev, { role: 'assistant', content: fallbackMessage }]);
         } finally {
             setIsLoading(false);
         }

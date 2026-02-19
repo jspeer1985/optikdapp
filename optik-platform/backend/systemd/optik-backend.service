@@ -1,0 +1,18 @@
+[Unit]
+Description=Optik Backend API (FastAPI/Uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=kali
+Group=kali
+WorkingDirectory=/home/kali/Dapp_Optik/optik-platform/backend
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/home/kali/Dapp_Optik/optik-platform/backend/venv/bin/uvicorn api.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

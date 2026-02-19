@@ -35,6 +35,7 @@ function resolveRpcEndpoint(network: WalletAdapterNetwork): string {
 }
 
 async function shouldAutoConnect(adapter: Adapter): Promise<boolean> {
+    console.log(`[wallet:autoconnect] Checking adapter: ${adapter.name}, readyState: ${adapter.readyState}`);
     return (
         adapter.readyState === WalletReadyState.Installed ||
         adapter.readyState === WalletReadyState.Loadable
@@ -60,7 +61,7 @@ export default function Providers({
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider
                 wallets={wallets}
-                autoConnect={shouldAutoConnect}
+                autoConnect={false}
                 localStorageKey={WALLET_STORAGE_KEY}
                 onError={(error, adapter) => {
                     const adapterName = adapter?.name || 'unknown';
@@ -71,8 +72,21 @@ export default function Providers({
                         error instanceof WalletConnectionError
                     ) {
                         if (typeof window !== 'undefined') {
+                            console.log(`[wallet:${adapterName}] Removing from localStorage due to error`);
                             window.localStorage.removeItem(WALLET_STORAGE_KEY);
                         }
+                    }
+                    
+                    // Show user-friendly error
+                    if (typeof window !== 'undefined') {
+                        const errorMessage = error instanceof WalletNotReadyError 
+                            ? `${adapterName} wallet is not ready. Please install or unlock the wallet.`
+                            : error instanceof WalletConnectionError
+                            ? `Failed to connect to ${adapterName}. Please try again.`
+                            : `Wallet error: ${error.message}`;
+                            
+                        // You could dispatch this to a toast or error context here
+                        console.error('[wallet:user-error]', errorMessage);
                     }
                 }}
             >

@@ -1,0 +1,1 @@
+/home/kali/Dapp_Optik/optikcoin/AGENTS.md

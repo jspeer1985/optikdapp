@@ -1,0 +1,96 @@
+{% comment %}
+  Product grid section with Optik styling
+  Displays products in a responsive grid with glass morphism cards
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "product-grid",
+  "tag": "section",
+  "class": "optik-product-grid-section",
+  "enabled_on": {
+    "templates": ["collection", "search"]
+  },
+  "presets": [
+    {
+      "name": "Grid View",
+      "settings": {
+        "products_per_row": 4
+      }
+    },
+    {
+      "name": "List View", 
+      "settings": {
+        "products_per_row": 1
+      }
+    }
+  ],
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "t:sections.product_grid.products_per_row",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "view_mode",
+      "label": "t:sections.product_grid.view_mode",
+      "options": [
+        {
+          "value": "grid",
+          "label": "t:options.product_grid.grid"
+        },
+        {
+          "value": "list",
+          "label": "t:options.product_grid.list"
+        }
+      ],
+      "default": "grid"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="optik-product-grid-section">
+  <div class="optik-product-grid optik-product-grid--{{ section.settings.view_mode }}">
+    {% for product in collection.products %}
+      <div class="optik-product-card">
+        <div class="optik-card glass">
+          {% if product.featured_image %}
+            <div class="optik-product-image">
+              {{ product.featured_image | image_url: width: 400, height: 300 | image_tag }}
+            </div>
+          {% endif %}
+          
+          <div class="optik-product-info">
+            <h3 class="optik-product-title">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h3>
+            
+            <p class="optik-product-price">
+              {{ product.price | money }}
+            </p>
+            
+            {% if product.description %}
+              <p class="optik-product-description">
+                {{ product.description | truncate: 120 }}
+              </p>
+            {% endif %}
+            
+            <div class="optik-product-actions">
+              <a href="{{ product.url }}" class="btn-optik">View Details</a>
+              {% form 'product', product %}
+                <button type="submit" class="btn-optik btn-optik--add-to-cart">
+                  {{ 'products.product.add_to_cart' | t }}
+                </button>
+              {% endform %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+  </div>
+</div>

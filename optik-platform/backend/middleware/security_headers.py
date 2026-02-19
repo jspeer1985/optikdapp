@@ -5,11 +5,79 @@ Implements security best practices through HTTP headers
 
 import logging
 from typing import Callable
-from fastapi import Request
+from fastapi import Request, FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.types import ASGIApp
 
 logger = logging.getLogger(__name__)
+
+
+def add_security_headers_middleware(app: FastAPI, environment: str = "production") -> None:
+    """
+    Add security headers middleware to FastAPI application
+    
+    Implements OWASP security headers best practices
+    """
+    @app.middleware("http")
+    async def security_headers_middleware(request: Request, call_next):
+        response = await call_next(request)
+
+        # Content Security Policy (CSP)
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "img-src 'self' data: https: blob:; "
+            "font-src 'self' https://fonts.gstatic.com data:; "
+            "connect-src 'self' https:; "
+            "frame-ancestors 'none'; "
+            "form-action 'self'; "
+            "upgrade-insecure-requests; "
+            "block-all-mixed-content"
+        )
+
+        # HTTP Strict-Transport-Security (HSTS) - force HTTPS
+        if environment == "production":
+            response.headers["Strict-Transport-Security"] = (
+                "max-age=31536000; includeSubDomains; preload"
+            )
+
+        # Prevent MIME type sniffing
+        response.headers["X-Content-Type-Options"] = "nosniff"
+
+        # Prevent clickjacking attacks
+        response.headers["X-Frame-Options"] = "DENY"
+
+        # XSS Protection
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+
+        # Referrer Policy - limit referrer information
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+
+        # Permissions Policy (Feature Policy) - restrict browser features
+        response.headers["Permissions-Policy"] = (
+            "geolocation=(), "
+            "microphone=(), "
+            "camera=(), "
+            "payment=(), "
+            "usb=(), "
+            "magnetometer=(), "
+            "gyroscope=(), "
+            "accelerometer=()"
+        )
+
+        # Cross-Domain Policy
+        response.headers["X-Permitted-Cross-Domain-Policies"] = "none"
+
+        # Prevent MIME type detection
+        response.headers["X-Content-Security-Policy"] = response.headers["Content-Security-Policy"]
+
+        # Remove server header (don't reveal server info)
+        response.headers.pop("Server", None)
+        
+        return response
+
+    logger.info("✅ Security headers middleware installed")
 
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):

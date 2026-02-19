@@ -1,0 +1,98 @@
+{% comment %}
+  Hero banner section for OptikCoin theme
+  Features gradient background, call-to-action, and glass morphism effect
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "hero-banner",
+  "tag": "section",
+  "class": "optik-hero-section",
+  "enabled_on": {
+    "templates": ["index"]
+  },
+  "presets": [
+    {
+      "name": "Welcome",
+      "settings": {
+        "title": "Welcome to OptikCoin",
+        "subtitle": "Your Web3 Commerce Platform",
+        "button_text": "Get Started",
+        "button_url": "/collections/all"
+      }
+    },
+    {
+      "name": "Product Showcase",
+      "settings": {
+        "title": "Featured Products",
+        "subtitle": "Discover our collection",
+        "button_text": "Shop Now",
+        "button_url": "/collections/all"
+      }
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.hero.title",
+      "default": "Welcome to OptikCoin"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "t:sections.hero.subtitle",
+      "default": "Your Web3 Commerce Platform"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:sections.hero.button_text",
+      "default": "Get Started"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:sections.hero.button_url",
+      "default": "/collections/all"
+    },
+    {
+      "type": "select",
+      "id": "background_style",
+      "label": "t:sections.hero.background_style",
+      "options": [
+        {
+          "value": "gradient-1",
+          "label": "t:options.hero.gradient.blue"
+        },
+        {
+          "value": "gradient-2",
+          "label": "t:options.hero.gradient.purple"
+        },
+        {
+          "value": "glass",
+          "label": "t:options.hero.glass"
+        }
+      ],
+      "default": "gradient-1"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="optik-hero-section optik-hero--{{ section.settings.background_style }}">
+  <div class="optik-hero-content">
+    <div class="optik-hero-text">
+      <h1 class="optik-gradient">{{ section.settings.title }}</h1>
+      {% if section.settings.subtitle %}
+        <p class="optik-hero-subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+      
+      <div class="optik-hero-actions">
+        <a href="{{ section.settings.button_url }}" class="btn-optik">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

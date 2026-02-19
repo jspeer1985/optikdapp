@@ -1,0 +1,53 @@
+{% comment %}
+  This section is used in the page template to render store pages like About us
+  or Contact us. You can customize it by adding your own sections.
+  
+  Available sections: hero-banner, product-grid, and any custom sections you create.
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "t:general.page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:general.page.header"
+    },
+    {
+      "type": "text",
+      "id": "page_title",
+      "label": "t:general.page.title",
+      "default": "OptikCoin Store"
+    },
+    {
+      "type": "richtext",
+      "id": "page_content",
+      "label": "t:general.page.content",
+      "default": "Welcome to your OptikCoin store! This is your gateway to Web3 commerce."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage",
+      "sections": ["hero-banner"]
+    },
+    {
+      "name": "Product Catalog",
+      "sections": ["product-grid"]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="page">
+  {% section 'hero-banner' %}
+  
+  <div class="page-content">
+    <h1>{{ page.title }}</h1>
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+  </div>
+  
+  {% section 'product-grid' %}
+</div>
