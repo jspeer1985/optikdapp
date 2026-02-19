@@ -41,7 +41,7 @@ export default function OptikGPT() {
     const handleSendMessage = async () => {
         if (!inputValue.trim()) return;
         if (!user) {
-            setMessages(prev => [...prev, { role: 'assistant', content: 'Sign in to use Optik GPT.' }]);
+            setMessages(prev => [...prev, { role: 'assistant', content: '🚀 Connect your wallet to access Optik Ultimate AI - The most intelligent assistant in the universe with Claude + GPT-4 + Shopify expertise!' }]);
             return;
         }
 
@@ -51,16 +51,17 @@ export default function OptikGPT() {
         setIsLoading(true);
 
         try {
-            const data = await api<{ message: string; actions?: string[] }>('/api/v1/assistant/chat', {
+            const data = await api<{ message: string; actions?: string[] }>('/api/optik-ultimate/chat', {
                 method: 'POST',
                 body: JSON.stringify({
                     message: userMessage.content,
                     merchant_id: user.id,
-                    prompt_profile: OPTIK_DEFAULT_PROMPT.id,
-                    prompt_version: OPTIK_DEFAULT_PROMPT.version,
-                    assistant_mode: 'enterprise',
-                    page_context: pathname,
-                    model_preference: modelPreference || undefined,
+                    context: {
+                        page_context: pathname,
+                        assistant_mode: 'enterprise',
+                        use_ensemble: true,
+                        include_market_data: true
+                    }
                 }),
             });
 
@@ -92,11 +93,11 @@ export default function OptikGPT() {
                         {/* Header */}
                         <div className="p-4 border-b border-white/10 bg-white/5 flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-sm">🤖</div>
+                                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-lg flex items-center justify-center text-sm">🧠</div>
                                 <div>
-                                    <div className="font-bold text-white text-sm">Optik GPT</div>
+                                    <div className="font-bold text-white text-sm">Optik Ultimate AI</div>
                                     <div className="text-[10px] text-green-400 font-mono flex items-center gap-1">
-                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" /> ONLINE
+                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" /> UNIVERSAL
                                     </div>
                                 </div>
                             </div>
@@ -112,8 +113,10 @@ export default function OptikGPT() {
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
                             {messages.length === 0 && (
                                 <div className="text-center mt-10 opacity-50">
-                                    <div className="text-4xl mb-2">👋</div>
-                                    <p className="text-sm text-gray-300">How can I help you manage your store today?</p>
+                                    <div className="text-4xl mb-2">🌟</div>
+                                    <p className="text-sm text-gray-300 font-bold">Optik Ultimate AI</p>
+                                    <p className="text-xs text-gray-400 mt-1">Claude + GPT-4 + Shopify + Market Intelligence</p>
+                                    <p className="text-sm text-gray-300 mt-3">How can I help you build the future today?</p>
                                 </div>
                             )}
 
@@ -194,13 +197,13 @@ export default function OptikGPT() {
                     onClick={() => setIsOpen(!isOpen)}
                     className="w-16 h-16 bg-gradient-to-tr from-blue-600 via-primary to-purple-600 rounded-full shadow-[0_0_30px_rgba(37,99,235,0.6)] flex items-center justify-center text-3xl text-white hover:scale-110 active:scale-95 transition-all border-2 border-white/20 animate-bounce-slow relative group"
                 >
-                    <span className="sr-only">Open Optik GPT</span>
+                    <span className="sr-only">Open Optik Ultimate AI</span>
                     {isOpen ? '✕' : '✨'}
 
                     {!isOpen && (
                         <div className="absolute bottom-full right-0 mb-4 w-64 bg-slate-900/90 backdrop-blur-xl border border-white/10 p-3 rounded-2xl shadow-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none transform translate-y-2 group-hover:translate-y-0">
                             <p className="text-xs text-gray-300">
-                                Need help? I can create products, check sales, or deploy your store.
+                                🚀 Ultimate AI: Claude + GPT-4 + Shopify + Market Intelligence
                             </p>
                         </div>
                     )}

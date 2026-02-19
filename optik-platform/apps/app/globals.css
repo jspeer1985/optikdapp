@@ -92,7 +92,7 @@ html, body {
 /* ---------- BUTTONS ---------- */
 
 .btn-primary {
-  background: linear-gradient(90deg, #00baff, #00ffc6);
+  background: linear-gradient(90deg, #00baff, #c90a0ad0);
   color: black;
   padding: 14px 26px;
   border-radius: 12px;

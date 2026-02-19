@@ -40,6 +40,10 @@ app.add_middleware(
 # Include authentication routes
 app.include_router(auth_router)
 
+# Include Ultimate AI routes
+from optik_gpt.api_ultimate import router as ultimate_router
+app.include_router(ultimate_router)
+
 # Pricing plans
 PRICING_PLANS = {
     "starter": {
