@@ -17,7 +17,7 @@ This script will:
 - Validate your `.env` secrets.
 - Verify backend connectivity.
 - Run a production build simulation.
-- Prepare your `vercel.json` for live deployment.
+- Prepare your environment for production deployment.
 
 ## 🏗️ Project Structure
 
@@ -28,13 +28,14 @@ This script will:
 
 ## 🌐 Deployment Roadmap
 
-### 1. Frontend (Vercel)
+### 1. Frontend (Self-Hosted / Your Choice)
 
 - **Root Directory**: `optik-platform/apps`
 - **Build Command**: `npm run build`
 - **Framework**: Next.js
+- **Domain**: https://optikcoin.com
 
-### 2. Backend (Render / Railway / AWS)
+### 2. Backend (Your Server)
 
 - **Host**: Any Python-capable host with Docker support.
 - **Port**: 80000 (standard for Optik API).

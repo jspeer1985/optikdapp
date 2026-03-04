@@ -1,7 +1,0 @@
-{
-  "buildCommand": "cd optik-platform/apps && npm run build",
-  "outputDirectory": "optik-platform/apps/.next",
-  "installCommand": "cd optik-platform/apps && npm install",
-  "framework": "nextjs",
-  "rootDirectory": "optik-platform/apps"
-}
