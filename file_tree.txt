@@ -1,0 +1,487 @@
+.
+├── Anchor.toml
+├── .claude
+│   ├── .pilot-settings-baseline.json
+│   ├── rules
+│   │   └── .gitkeep
+│   └── settings.local.json
+├── cleanup.sh
+├── contracts
+│   ├── scripts
+│   │   └── deploy.ts
+│   ├── src
+│   │   ├── MerchantRegistry.sol
+│   │   ├── OptikCoin.sol
+│   │   ├── PairedNFT.sol
+│   │   └── PairingRouter.sol
+│   └── test
+│       └── pairing.test.ts
+├── .env
+├── .env.example
+├── file_tree.txt
+├── .gitignore
+├── hardhat.config.ts
+├── .hintrc
+├── integrate_payments.sh
+├── managed_context
+│   └── metadata.json
+├── my_backup.zip
+├── .nvmrc
+├── optikcoin
+│   ├── AGENTS.md
+│   ├── assets
+│   │   ├── critical.css
+│   │   ├── icon-account.svg
+│   │   ├── icon-cart.svg
+│   │   └── shoppy-x-ray.svg
+│   ├── blocks
+│   │   ├── group.liquid
+│   │   └── text.liquid
+│   ├── CLAUDE.md -> /home/kali/Dapp_Optik/optikcoin/AGENTS.md
+│   ├── CODE_OF_CONDUCT.md
+│   ├── config
+│   │   ├── settings_data.json
+│   │   └── settings_schema.json
+│   ├── CONTRIBUTING.md
+│   ├── copilot-instructions.md -> /home/kali/Dapp_Optik/optikcoin/AGENTS.md
+│   ├── .gitattributes
+│   ├── .gitignore
+│   ├── layout
+│   │   ├── password.liquid
+│   │   └── theme.liquid
+│   ├── LICENSE.md
+│   ├── locales
+│   │   ├── en.default.json
+│   │   └── en.default.schema.json
+│   ├── README.md
+│   ├── sections
+│   │   ├── 404.liquid
+│   │   ├── article.liquid
+│   │   ├── blog.liquid
+│   │   ├── cart.liquid
+│   │   ├── collection.liquid
+│   │   ├── collections.liquid
+│   │   ├── custom-section.liquid
+│   │   ├── footer-group.json
+│   │   ├── footer.liquid
+│   │   ├── header-group.json
+│   │   ├── header.liquid
+│   │   ├── hello-world.liquid
+│   │   ├── hero-banner.liquid
+│   │   ├── page.liquid
+│   │   ├── password.liquid
+│   │   ├── product-grid.liquid
+│   │   ├── product.liquid
+│   │   └── search.liquid
+│   ├── .shopifyignore
+│   ├── snippets
+│   │   ├── css-variables.liquid
+│   │   ├── image.liquid
+│   │   └── meta-tags.liquid
+│   ├── templates
+│   │   ├── 404.json
+│   │   ├── article.json
+│   │   ├── auth.json
+│   │   ├── blog.json
+│   │   ├── cart.json
+│   │   ├── collection.json
+│   │   ├── create-dapp.json
+│   │   ├── dapps.json
+│   │   ├── dashboard.json
+│   │   ├── gift_card.liquid
+│   │   ├── index.json
+│   │   ├── list-collections.json
+│   │   ├── page.json
+│   │   ├── password.json
+│   │   ├── product.json
+│   │   └── search.json
+│   └── .theme-check.yml
+├── optik-platform
+│   ├── apps
+│   │   ├── agents
+│   │   │   ├── contracts
+│   │   │   │   └── api_endpoints.json
+│   │   │   ├── manifest.json
+│   │   │   ├── prompts
+│   │   │   │   ├── file_audit_system.md
+│   │   │   │   ├── optik_gpt_claude.md
+│   │   │   │   ├── optik_gpt_openai.md
+│   │   │   │   ├── optik_gpt_shopify.md
+│   │   │   │   ├── optik_gpt_system.md
+│   │   │   │   ├── optik_gpt_tools.md
+│   │   │   │   ├── registry.json
+│   │   │   │   └── supervisor_verification.md
+│   │   │   ├── proofs
+│   │   │   │   └── schema.json
+│   │   │   ├── registry.json
+│   │   │   └── workflows
+│   │   │       ├── ai_pipeline.json
+│   │   │       ├── merchant_dapp_creation.json
+│   │   │       └── merchant_intake_questions.json
+│   │   ├── AGENTS.md
+│   │   ├── app
+│   │   │   ├── AGENTS.md
+│   │   │   ├── api
+│   │   │   │   └── dapps
+│   │   │   │       └── register
+│   │   │   │           └── route.ts
+│   │   │   ├── auth
+│   │   │   │   ├── jphs
+│   │   │   │   │   └── .qodo
+│   │   │   │   │       ├── agents
+│   │   │   │   │       └── workflows
+│   │   │   │   └── page.tsx
+│   │   │   ├── checkout
+│   │   │   │   └── page.tsx
+│   │   │   ├── components
+│   │   │   │   ├── layout
+│   │   │   │   │   ├── DashboardHeader.tsx
+│   │   │   │   │   ├── DashboardTabs.tsx
+│   │   │   │   │   ├── Footer.tsx
+│   │   │   │   │   └── Navbar.tsx
+│   │   │   │   ├── OptikGPT
+│   │   │   │   │   └── OptikGPT.tsx
+│   │   │   │   ├── ui
+│   │   │   │   │   ├── Button.tsx
+│   │   │   │   │   ├── Card.tsx
+│   │   │   │   │   ├── Input.tsx
+│   │   │   │   │   └── Modal.tsx
+│   │   │   │   └── wallet
+│   │   │   │       └── ConnectWallet.tsx
+│   │   │   ├── context
+│   │   │   │   └── AuthContext.tsx
+│   │   │   ├── create-dapp
+│   │   │   │   ├── page-content.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── dapps
+│   │   │   │   └── [id]
+│   │   │   │       └── page.tsx
+│   │   │   ├── dashboard
+│   │   │   │   ├── analytics
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── billing
+│   │   │   │   │   ├── history
+│   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   ├── page.tsx
+│   │   │   │   │   └── subscription
+│   │   │   │   │       └── page.tsx
+│   │   │   │   ├── categories
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── integrations
+│   │   │   │   │   ├── [id]
+│   │   │   │   │   │   └── configure
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── liquidity
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── logistics
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── marketing
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── merchant
+│   │   │   │   │   ├── page-content.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── mobile-app
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── nft-creator
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── products
+│   │   │   │   │   ├── [id]
+│   │   │   │   │   │   ├── edit
+│   │   │   │   │   │   │   └── page.tsx
+│   │   │   │   │   │   └── royalties
+│   │   │   │   │   │       └── page.tsx
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── proofs
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── security
+│   │   │   │       └── page.tsx
+│   │   │   ├── drops
+│   │   │   │   └── page.tsx
+│   │   │   ├── globals.css
+│   │   │   ├── hooks
+│   │   │   │   ├── useLocalStorage.ts
+│   │   │   │   ├── useToast.ts
+│   │   │   │   └── useWalletBalance.ts
+│   │   │   ├── layout.tsx
+│   │   │   ├── lib
+│   │   │   │   ├── api.ts
+│   │   │   │   ├── optikGptPromptRegistry.ts
+│   │   │   │   ├── solana.ts
+│   │   │   │   └── validation.ts
+│   │   │   ├── models
+│   │   │   │   └── page.tsx
+│   │   │   ├── optik-coin
+│   │   │   │   └── page.tsx
+│   │   │   ├── orchestrator
+│   │   │   │   ├── IMPLEMENTATION.md
+│   │   │   │   ├── orchestrator.module.css
+│   │   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   ├── payments
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── types
+│   │   │   │       └── index.ts
+│   │   │   ├── privacy
+│   │   │   │   └── page.tsx
+│   │   │   ├── providers.tsx
+│   │   │   ├── README.md
+│   │   │   ├── shipping
+│   │   │   │   └── page.tsx
+│   │   │   ├── store-preview
+│   │   │   │   └── page.tsx
+│   │   │   ├── terms
+│   │   │   │   └── page.tsx
+│   │   │   ├── utils
+│   │   │   │   ├── constants.ts
+│   │   │   │   └── format.ts
+│   │   │   ├── verify
+│   │   │   │   └── page.tsx
+│   │   │   └── whitepaper
+│   │   │       └── page.tsx
+│   │   ├── audit
+│   │   │   ├── optik-metadata.json
+│   │   │   ├── optik-token.json
+│   │   │   └── proofs
+│   │   │       └── files
+│   │   ├── .claude
+│   │   │   ├── rules
+│   │   │   │   └── .gitkeep
+│   │   │   └── skills
+│   │   │       └── master-pipeline
+│   │   │           └── SKILL.md
+│   │   ├── .devcontainer
+│   │   │   ├── devcontainer.json
+│   │   │   └── Dockerfile
+│   │   ├── ecosystem.config.js
+│   │   ├── .env.local
+│   │   ├── .gitignore
+│   │   ├── managed_context
+│   │   │   └── metadata.json
+│   │   ├── mcp_servers.json
+│   │   ├── next.config.js
+│   │   ├── next-env.d.ts
+│   │   ├── .nvmrc
+│   │   ├── package.json
+│   │   ├── package-lock.json
+│   │   ├── .playwright
+│   │   ├── postcss.config.js
+│   │   ├── public
+│   │   │   ├── dapp-background.webp
+│   │   │   ├── favicon.ico
+│   │   │   ├── optik_bird.svg
+│   │   │   ├── README.md
+│   │   │   └── solana-bg.png
+│   │   ├── .ruff_cache
+│   │   │   ├── 0.15.1
+│   │   │   │   ├── 16024386804892008859
+│   │   │   │   └── 8655710655997157159
+│   │   │   ├── CACHEDIR.TAG
+│   │   │   └── .gitignore
+│   │   ├── scripts
+│   │   │   ├── agent_dispatch.py
+│   │   │   ├── ai_pipeline.py
+│   │   │   ├── api_contract_audit.py
+│   │   │   ├── cta_route_audit.py
+│   │   │   ├── proof_audit.py
+│   │   │   └── start-prod.sh
+│   │   ├── tailwind.config.js
+│   │   ├── test_suite_analysis
+│   │   │   └── metadata.json
+│   │   ├── tsconfig.json
+│   │   ├── tsconfig.tsbuildinfo
+│   │   ├── .vercel
+│   │   │   ├── project.json
+│   │   │   └── README.txt
+│   │   └── .vscode
+│   │       └── extensions.json
+│   ├── backend
+│   │   ├── agents
+│   │   │   ├── analyzer_agent.py
+│   │   │   ├── converter_agent.py
+│   │   │   ├── deployer_agent.py
+│   │   │   ├── growth_agent.py
+│   │   │   └── scraper_agent.py
+│   │   ├── api
+│   │   │   ├── analytics_routes.py
+│   │   │   ├── assistant_routes.py
+│   │   │   ├── auth_routes.py
+│   │   │   ├── connect_routes.py
+│   │   │   ├── convert_routes.py
+│   │   │   ├── dapps_routes.py
+│   │   │   ├── deploy_routes.py
+│   │   │   ├── __init__.py
+│   │   │   ├── integration_routes.py
+│   │   │   ├── liquidity_routes.py
+│   │   │   ├── main.py
+│   │   │   ├── marketing_routes.py
+│   │   │   ├── nft_routes.py
+│   │   │   ├── onboarding_routes.py
+│   │   │   ├── payment_routes.py
+│   │   │   ├── pipeline_endpoints.py
+│   │   │   ├── product_routes.py
+│   │   │   ├── security_routes.py
+│   │   │   ├── system_routes.py
+│   │   │   └── verify_routes.py
+│   │   ├── blockchain
+│   │   │   ├── programs
+│   │   │   │   └── optik-store
+│   │   │   │       ├── Cargo.lock
+│   │   │   │       ├── Cargo.toml
+│   │   │   │       └── src
+│   │   │   │           └── lib.rs
+│   │   │   └── tests
+│   │   │       ├── optik_store.ts
+│   │   │       ├── test_payout_integrity.py
+│   │   │       ├── test_pipeline_fix.py
+│   │   │       └── test_universal_ingestion.py
+│   │   ├── config
+│   │   │   ├── __init__.py
+│   │   │   ├── secrets.py
+│   │   │   └── settings.py
+│   │   ├── database
+│   │   │   ├── migrations
+│   │   │   ├── models
+│   │   │   │   └── schema.prisma
+│   │   │   └── seed
+│   │   │       └── seed_data.py
+│   │   ├── docker
+│   │   │   ├── docker-compose.yml
+│   │   │   ├── Dockerfile.backend
+│   │   │   └── Dockerfile.frontend
+│   │   ├── docker-compose.mongodb.yml
+│   │   ├── Dockerfile.mongodb
+│   │   ├── docs
+│   │   │   ├── BACKEND_PROCESS.md
+│   │   │   ├── CONVERT_BUTTON_FIX.md
+│   │   │   └── PIPELINE_FIX.md
+│   │   ├── ecosystem.config.cjs
+│   │   ├── .env
+│   │   ├── .env.example
+│   │   ├── .env.mongodb
+│   │   ├── .env.synced
+│   │   ├── .gitignore
+│   │   ├── integrations
+│   │   │   ├── shopify.py
+│   │   │   ├── solana.py
+│   │   │   └── woocommerce.py
+│   │   ├── logs
+│   │   ├── middleware
+│   │   │   ├── __init__.py
+│   │   │   ├── rate_limiter.py
+│   │   │   └── security_headers.py
+│   │   ├── optik.db
+│   │   ├── optik_gpt
+│   │   │   ├── agents
+│   │   │   │   ├── dapp_agents.py
+│   │   │   │   └── __init__.py
+│   │   │   ├── api.py
+│   │   │   ├── api_ultimate.py
+│   │   │   ├── assistant
+│   │   │   │   ├── claude_engine.py
+│   │   │   │   ├── conversation_engine.py
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── intelligent_automation.py
+│   │   │   │   ├── intent_router.py
+│   │   │   │   ├── market_intelligence.py
+│   │   │   │   ├── multimodal_reasoning.py
+│   │   │   │   ├── shopify_ai.py
+│   │   │   │   └── universal_ai_engine.py
+│   │   │   ├── config.py
+│   │   │   ├── examples.py
+│   │   │   ├── __init__.py
+│   │   │   ├── main.py
+│   │   │   ├── OPTIK_GPT.md
+│   │   │   ├── QUICKSTART.md
+│   │   │   ├── README.md
+│   │   │   └── services
+│   │   │       ├── __init__.py
+│   │   │       └── knowledge_manager.py
+│   │   ├── payments
+│   │   │   ├── __init__.py
+│   │   │   ├── invoice_generator.py
+│   │   │   ├── ledger.py
+│   │   │   ├── plans.py
+│   │   │   ├── stripe_client.py
+│   │   │   ├── subscription_manager.py
+│   │   │   └── webhook_handler.py
+│   │   ├── pipelines
+│   │   │   ├── conversion_pipeline.py
+│   │   │   ├── deployment_pipeline.py
+│   │   │   ├── ingestion_manager.py
+│   │   │   ├── job_service.py
+│   │   │   ├── master_pipeline.py
+│   │   │   └── scraping_pipeline.py
+│   │   ├── prompts
+│   │   │   ├── conversion_prompts.py
+│   │   │   └── scraping_prompts.py
+│   │   ├── requirements.txt
+│   │   ├── requirements_ultimate.txt
+│   │   ├── scripts
+│   │   │   ├── backendctl.sh
+│   │   │   └── mongo-init.js
+│   │   ├── setup-mongodb.sh
+│   │   ├── simple_server.py
+│   │   ├── stripe_config.txt
+│   │   ├── stripe_connect_guide.py
+│   │   ├── stripe_setup.py
+│   │   ├── systemd
+│   │   │   └── optik-backend.service
+│   │   ├── test_payments.py
+│   │   ├── tests
+│   │   │   └── test_health.py
+│   │   └── utils
+│   │       ├── audit_logger.py
+│   │       ├── auth.py
+│   │       ├── aws_secrets.py
+│   │       ├── check_stripe.py
+│   │       ├── database.py
+│   │       ├── data_processor.py
+│   │       ├── email.py
+│   │       ├── env.py
+│   │       ├── image_processor.py
+│   │       ├── mongo_db.py
+│   │       ├── mongo_init.py
+│   │       ├── nft_generator.py
+│   │       ├── platform_detector.py
+│   │       ├── redis_manager.py
+│   │       ├── security.py
+│   │       ├── smart_contract_deployer.py
+│   │       ├── test_full_pipeline.py
+│   │       └── validators.py
+│   ├── documentation
+│   │   └── whitepaper
+│   │       ├── revenue_model.md
+│   │       └── whitepaper.md
+│   └── .github
+│       └── workflows
+│           └── ci.yml
+├── package.json
+├── package-lock.json
+├── package-vercel.json
+├── PROJECT_AUDIT_REPORT.md
+├── project_structure.txt
+├── .pytest_cache
+│   ├── CACHEDIR.TAG
+│   ├── .gitignore
+│   ├── README.md
+│   └── v
+│       └── cache
+│           ├── lastfailed
+│           └── nodeids
+├── .qodo
+│   ├── agents
+│   └── workflows
+├── README.md
+├── security_best_practices_report.md
+├── stripe_audit_files.txt
+├── test
+│   └── Counter.ts
+├── test_suite_analysis
+│   ├── 2026-02-22 23:40:54
+│   └── metadata.json
+├── tsconfig.json
+└── vercel.json
+
+137 directories, 348 files

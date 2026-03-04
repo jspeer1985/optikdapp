@@ -70,3 +70,33 @@ managed_context/
 
 # Misc
 .shopify
+
+# === Auto-added by cleanup.sh ===
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Hardhat
+artifacts/
+cache/
+
+# Logs
+*.log
+firebase-debug.log
+logs/
+
+# IDE
+.idea/
+.vscode/
+
+# Env (keep .env.example, ignore real .env)
+.env
+
+# Archives
+*.zip
+
+# Temp
+FILE_TREE.txt
+managed_context/

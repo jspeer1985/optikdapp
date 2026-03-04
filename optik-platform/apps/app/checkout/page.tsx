@@ -1,14 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/Button';
 import { api } from '@/lib/api';
 
 export default function CheckoutPage() {
     const router = useRouter();
+    const [checkoutCancelled, setCheckoutCancelled] = useState(false);
     const [loading, setLoading] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState('elite');
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const params = new URLSearchParams(window.location.search);
+        setCheckoutCancelled(params.get('cancel') === 'true');
+    }, []);
 
     const tiers = [
         { id: 'basic', name: 'Basic', fee: '3', agents: '1 Agent', perks: 'Essential Tools', color: 'border-slate-800' },
@@ -20,21 +28,27 @@ export default function CheckoutPage() {
 
     const handleCheckout = async () => {
         setLoading(true);
+        setError(null);
         const plan = tiers.find(t => t.id === selectedPlan);
+        const fee = plan?.fee || '0';
+        const successPath = `/create-dapp?tier=${encodeURIComponent(selectedPlan)}&fee=${encodeURIComponent(`${fee}%`)}&checkout=success`;
         try {
             const data = await api<{ checkout_url?: string }>('/api/v1/payments/checkout', {
                 method: 'POST',
                 body: JSON.stringify({
                     plan_id: selectedPlan,
-                    success_url: `${window.location.origin}/create-dapp?tier=${selectedPlan}&fee=${plan?.fee}%&checkout=success`,
+                    success_url: `${window.location.origin}${successPath}`,
                     cancel_url: `${window.location.origin}/checkout?cancel=true`,
                 }),
             });
             if (data.checkout_url) {
                 window.location.href = data.checkout_url;
             } else {
-                router.push(`/create-dapp?tier=${selectedPlan}&fee=${plan?.fee}%&checkout=success`);
+                // Development fallback for environments without hosted checkout.
+                router.push(successPath);
             }
+        } catch (err: any) {
+            setError(err.message || 'Unable to start checkout. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -55,6 +69,12 @@ export default function CheckoutPage() {
                     <p className="text-gray-400 text-lg leading-relaxed">
                         Optik doesn't charge subscription fees. We succeed when you succeed. Select an AI labor tier based on your required workforce.
                     </p>
+                    {checkoutCancelled && (
+                        <p className="text-sm text-amber-400">Checkout canceled. Choose a plan to continue.</p>
+                    )}
+                    {error && (
+                        <p className="text-sm text-red-400">{error}</p>
+                    )}
                 </div>
 
                 {/* Pricing Grid */}

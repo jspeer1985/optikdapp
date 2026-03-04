@@ -57,7 +57,7 @@ export default function Home() {
             </section>
 
             {/* Trust & Stats */}
-            <section className="py-12 border-y border-border bg-muted/30">
+            <section className="py-12 border-y border-white/5 bg-white/5 backdrop-blur-sm">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         <div>
@@ -81,7 +81,7 @@ export default function Home() {
             </section>
 
             {/* What is Optik Platform */}
-            <section className="py-32 bg-background relative overflow-hidden">
+            <section className="py-32 bg-transparent relative overflow-hidden">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row items-center gap-16 max-w-6xl mx-auto">
                         <div className="flex-1">
@@ -157,7 +157,7 @@ export default function Home() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                        <div className="group p-10 glass rounded-3xl border border-border card-shadow-hover">
+                        <div className="group p-10 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 card-shadow-hover">
 
                             <div className="text-4xl mb-6">💳</div>
                             <h3 className="text-2xl font-bold mb-4">Payment Processing</h3>
@@ -177,7 +177,7 @@ export default function Home() {
                             </Link>
                         </div>
 
-                        <div className="group p-10 glass rounded-3xl border border-border card-shadow-hover">
+                        <div className="group p-10 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 card-shadow-hover">
 
                             <div className="text-4xl mb-6">🎨</div>
                             <h3 className="text-2xl font-bold mb-4">NFT Infrastructure</h3>
@@ -197,7 +197,7 @@ export default function Home() {
                             </Link>
                         </div>
 
-                        <div className="group p-10 glass rounded-3xl border border-border card-shadow-hover">
+                        <div className="group p-10 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 card-shadow-hover">
 
                             <div className="text-4xl mb-6">🪙</div>
                             <h3 className="text-2xl font-bold mb-4">Optik Token Pairing</h3>
@@ -217,7 +217,7 @@ export default function Home() {
                             </Link>
                         </div>
 
-                        <div className="group p-10 glass rounded-3xl border border-border card-shadow-hover">
+                        <div className="group p-10 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 card-shadow-hover">
 
                             <div className="text-4xl mb-6">🛠️</div>
                             <h3 className="text-2xl font-bold mb-4">Developer Ecosystem</h3>
@@ -270,7 +270,7 @@ export default function Home() {
                                     ))}
                                     <li className="flex items-center gap-3 opacity-50">✓ Advanced Analytics</li>
                                 </ul>
-                                <Link href={`/checkout?tier=${tier.name.toLowerCase()}`} className={`block w-full py-4 text-center font-bold rounded-2xl transition-all ${tier.name === 'Elite' ? 'bg-primary text-primary-foreground shadow-lg shadow-blue-500/20 hover:opacity-90' : 'border-2 border-primary text-primary hover:bg-primary/5'}`}>
+                                <Link href={`/checkout?tier=${tier.name.toLowerCase()}`} className={`block w-full py-4 text-center font-bold rounded-2xl transition-all ${tier.name === 'Elite' ? 'bg-primary text-primary-foreground shadow-lg shadow-blue-500/20 hover:opacity-90 ring-2 ring-white ring-offset-2 ring-offset-transparent' : 'border-2 border-primary text-primary hover:bg-primary/5'}`}>
                                     Get Started
                                 </Link>
                             </div>

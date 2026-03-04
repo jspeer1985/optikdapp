@@ -1,15 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/ui/Button';
 import { api } from '@/lib/api';
 
 export default function MobileAppBuilder() {
+    const [paymentStatus, setPaymentStatus] = useState('');
     const [platform, setPlatform] = useState<'ios' | 'android' | 'both'>('both');
     const [appName, setAppName] = useState('');
     const [building, setBuilding] = useState(false);
     const [status, setStatus] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const params = new URLSearchParams(window.location.search);
+        setPaymentStatus(params.get('payment') || '');
+    }, []);
+
+    useEffect(() => {
+        if (paymentStatus === 'success') {
+            setError(null);
+            setStatus('Payment confirmed. We received your build order and will start onboarding.');
+            return;
+        }
+        if (paymentStatus === 'cancelled') {
+            setStatus(null);
+            setError('Payment checkout was canceled. You can retry below.');
+        }
+    }, [paymentStatus]);
 
     const handleBuild = async () => {
         if (!appName) {
@@ -93,7 +112,7 @@ export default function MobileAppBuilder() {
                                         onClick={() => setPlatform('both')}
                                         className={`p-4 rounded-xl border flex flex-col items-center gap-2 transition-all ${platform === 'both' ? 'bg-blue-600 border-blue-500' : 'bg-black/20 border-white/10 hover:bg-white/5'}`}
                                     >
-                                        <span className="text-2xl">Unite</span>
+                                        <span className="text-2xl">🌐</span>
                                         <span className="text-xs font-bold text-white">Both (Best Value)</span>
                                     </button>
                                 </div>
@@ -180,14 +199,18 @@ export default function MobileAppBuilder() {
                             onClick={async () => {
                                 setError(null);
                                 try {
+                                    const successUrl = new URL(window.location.href);
+                                    successUrl.searchParams.set('payment', 'success');
+                                    const cancelUrl = new URL(window.location.href);
+                                    cancelUrl.searchParams.set('payment', 'cancelled');
                                     const data = await api<{ checkout_url?: string }>('/api/v1/payments/payment-link', {
                                         method: 'POST',
                                         body: JSON.stringify({
                                             amount_cents: 34900,
                                             currency: 'usd',
                                             product_name: `Mobile App Build: ${appName || 'New App'}`,
-                                            success_url: window.location.href + '?payment=success',
-                                            cancel_url: window.location.href + '?payment=cancelled'
+                                            success_url: successUrl.toString(),
+                                            cancel_url: cancelUrl.toString()
                                         }),
                                     });
                                     if (data.checkout_url) {

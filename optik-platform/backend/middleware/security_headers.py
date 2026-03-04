@@ -165,10 +165,15 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "geolocation=(), microphone=(), camera=(), payment=(self)"
         )
 
-        # Cross-Origin policies
-        response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
-        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
-        response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        # Cross-Origin policies - LOOSENED for development
+        if self.environment == "production":
+            response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+            response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+            response.headers["Cross-Origin-Resource-Policy"] = "same-origin"
+        else:
+            # In development, these often cause CORS heartaches
+            response.headers["Cross-Origin-Resource-Policy"] = "cross-origin"
+            response.headers["Cross-Origin-Opener-Policy"] = "unsafe-none"
 
         # Prevent caching of sensitive data
         if request.url.path.startswith("/api/"):

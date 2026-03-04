@@ -95,3 +95,12 @@ class SecurityConfig:
             "security_headers_enabled": cls.SECURITY_HEADERS_ENABLED,
             "audit_logging_enabled": cls.AUDIT_LOGGING_ENABLED,
         }
+
+
+def get_settings():
+    """Get settings instance"""
+    return SecurityConfig()
+
+
+# Global settings instance
+settings = SecurityConfig()

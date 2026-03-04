@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
@@ -36,13 +36,27 @@ type DappResponse = {
 
 export default function DappView() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const dappId = useMemo(() => String(params.id || ''), [params.id]);
+  const checkoutStatus = useMemo(() => searchParams.get('status') || '', [searchParams]);
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const [data, setData] = useState<DappResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    if (checkoutStatus === 'success') {
+      setError(null);
+      setStatusMessage('Card payment completed successfully.');
+      return;
+    }
+    if (checkoutStatus === 'cancelled') {
+      setStatusMessage('Card checkout was canceled. You can try again.');
+    }
+  }, [checkoutStatus]);
 
   useEffect(() => {
     let mounted = true;
@@ -76,10 +90,13 @@ export default function DappView() {
 
     setProcessing(true);
     setError(null);
+    setStatusMessage('Preparing transaction...');
     try {
-      const destination = new PublicKey(
-        data.store.merchant_wallet || process.env.NEXT_PUBLIC_PLATFORM_WALLET || ''
-      );
+      const destinationAddress = data.store.merchant_wallet || process.env.NEXT_PUBLIC_PLATFORM_WALLET;
+      if (!destinationAddress) {
+        throw new Error('Merchant wallet is not configured. Please use card payment or contact support.');
+      }
+      const destination = new PublicKey(destinationAddress);
       const lamports = Math.round(product.price_sol * LAMPORTS_PER_SOL);
       if (!lamports || lamports <= 0) {
         throw new Error('Invalid SOL price');
@@ -94,8 +111,10 @@ export default function DappView() {
       );
       const signature = await sendTransaction(transaction, connection);
       await connection.confirmTransaction(signature, 'confirmed');
+      setStatusMessage('Payment confirmed on-chain.');
     } catch (err: any) {
       setError(err.message || 'Solana payment failed');
+      setStatusMessage(null);
     } finally {
       setProcessing(false);
     }
@@ -105,6 +124,7 @@ export default function DappView() {
     if (!data) return;
     setProcessing(true);
     setError(null);
+    setStatusMessage(null);
 
     try {
       const { checkout_url } = await api<{ checkout_url?: string }>('/api/v1/payments/dapp-payment', {
@@ -154,7 +174,7 @@ export default function DappView() {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-20 bg-black text-white">
+    <div className="min-h-screen pt-32 pb-20 bg-black/40 backdrop-blur-sm text-white">
       <div className="container mx-auto px-4 max-w-6xl space-y-10">
         <div className="flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
@@ -174,30 +194,35 @@ export default function DappView() {
             {error}
           </div>
         )}
+        {statusMessage && (
+          <div className="rounded-2xl border border-blue-500/40 bg-blue-500/10 p-4 text-blue-200">
+            {statusMessage}
+          </div>
+        )}
 
         {data.products.length === 0 ? (
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-md">
             <p className="text-gray-400">No products available yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {data.products.map((product) => (
-              <Card key={product.id} className="group overflow-hidden border-white/5 bg-white/5 hover:border-primary/50 transition-all duration-500">
+              <Card key={product.id} className="group overflow-hidden border-white/10 bg-white/5 hover:border-blue-500/50 transition-all duration-500 backdrop-blur-md">
                 <div className="aspect-square bg-white/5 flex items-center justify-center text-7xl group-hover:scale-110 transition-transform duration-700">
                   {product.image_url ? (
                     <img src={product.image_url} alt={product.title} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-sm text-gray-500">No image</span>
+                    <span className="text-xs text-gray-500 italic">Optik NFT Asset</span>
                   )}
                 </div>
                 <div className="p-6 space-y-4">
                   <div>
-                    <h3 className="text-xl font-bold mb-2">{product.title}</h3>
-                    <p className="text-xs text-gray-500 line-clamp-2">{product.description}</p>
+                    <h3 className="text-xl font-bold mb-2 line-clamp-1">{product.title}</h3>
+                    <p className="text-xs text-gray-500 line-clamp-2 min-h-[32px]">{product.description || 'Verified Web3 Product'}</p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="text-lg font-black text-primary">{product.price_sol.toFixed(3)} SOL</div>
-                    <div className="text-xs text-gray-500">{product.currency} {product.price.toFixed(2)}</div>
+                    <div className="text-lg font-black text-blue-400">{(product.price_sol || 0).toFixed(3)} SOL</div>
+                    <div className="text-xs text-gray-500">{product.currency || 'USD'} {(product.price || 0).toFixed(2)}</div>
                   </div>
                   <div className="flex gap-2">
                     <Button size="sm" className="flex-1" disabled={processing} onClick={() => handleSolanaPay(product)}>

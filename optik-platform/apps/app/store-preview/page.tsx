@@ -64,6 +64,18 @@ function StorefrontPreviewContent() {
       ''
     );
   }, [searchParams]);
+  const checkoutStatus = useMemo(() => searchParams.get('status') || '', [searchParams]);
+
+  useEffect(() => {
+    if (checkoutStatus === 'success') {
+      setError(null);
+      setStatusMessage('Card payment completed successfully.');
+      return;
+    }
+    if (checkoutStatus === 'cancelled') {
+      setStatusMessage('Card checkout was canceled. You can try again.');
+    }
+  }, [checkoutStatus]);
 
   useEffect(() => {
     let isMounted = true;
@@ -152,9 +164,11 @@ function StorefrontPreviewContent() {
     setStatusMessage('Preparing transaction...');
 
     try {
-      const destination = new PublicKey(
-        preview.store.merchant_wallet || process.env.NEXT_PUBLIC_PLATFORM_WALLET || ''
-      );
+      const destinationAddress = preview.store.merchant_wallet || process.env.NEXT_PUBLIC_PLATFORM_WALLET;
+      if (!destinationAddress) {
+        throw new Error('Merchant wallet is not configured. Please use card payment or contact support.');
+      }
+      const destination = new PublicKey(destinationAddress);
       const lamports = Math.round(product.price_sol * LAMPORTS_PER_SOL);
       if (!lamports || lamports <= 0) {
         throw new Error('Invalid SOL price');
@@ -176,6 +190,7 @@ function StorefrontPreviewContent() {
       setStatusMessage('Payment confirmed on-chain');
     } catch (err: any) {
       setError(err.message || 'Solana payment failed');
+      setStatusMessage(null);
     } finally {
       setProcessing(false);
     }
@@ -296,7 +311,7 @@ function StorefrontPreviewContent() {
                 ) : (
                   <div className="z-10 text-center space-y-4">
                     <span className="px-4 py-2 bg-blue-500/20 backdrop-blur-md border border-blue-500/30 rounded-full text-[10px] font-black uppercase tracking-widest text-blue-400">No Image</span>
-                    <h4 className="text-2xl font-black italic">UPLOAD REQUIRED</h4>
+                    <h4 className="text-2xl font-black italic">IMAGE UNAVAILABLE</h4>
                   </div>
                 )}
               </div>

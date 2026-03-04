@@ -23,19 +23,21 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# CORS for frontend - MUST be added before routes
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3003", "http://localhost:3000", "localhost:3003", "localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=3600,
+)
+
 # Initialize Stripe
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 if not stripe.api_key:
     raise RuntimeError("STRIPE_SECRET_KEY is required to run the demo server.")
-
-# CORS for frontend
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3003", "http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 # Include authentication routes
 app.include_router(auth_router)

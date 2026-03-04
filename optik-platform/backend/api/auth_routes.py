@@ -1,6 +1,6 @@
 import os
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request, Response
@@ -64,8 +64,15 @@ def _build_wallet_message(wallet_address: str, nonce: str, origin: Optional[str]
 
 
 def _set_auth_cookies(response: Response, access_token: str, refresh_token: str, access_expires_at: datetime, refresh_expires_at: datetime):
-    max_age_access = max(1, int((access_expires_at - datetime.utcnow()).total_seconds()))
-    max_age_refresh = max(1, int((refresh_expires_at - datetime.utcnow()).total_seconds()))
+    # Ensure we're working with timezone-aware datetimes
+    now = datetime.now(timezone.utc)
+    if access_expires_at.tzinfo is None:
+        access_expires_at = access_expires_at.replace(tzinfo=timezone.utc)
+    if refresh_expires_at.tzinfo is None:
+        refresh_expires_at = refresh_expires_at.replace(tzinfo=timezone.utc)
+    
+    max_age_access = max(1, int((access_expires_at - now).total_seconds()))
+    max_age_refresh = max(1, int((refresh_expires_at - now).total_seconds()))
 
     response.set_cookie(
         ACCESS_COOKIE_NAME,
@@ -96,6 +103,7 @@ def _clear_auth_cookies(response: Response):
 
 @router.post("/wallet/nonce")
 async def wallet_nonce(request: WalletNonceRequest, req: Request):
+    print(f"WALLET_NONCE REQUEST: {request.wallet_address}")
     try:
         wallet_bytes = base58.b58decode(request.wallet_address)
         if len(wallet_bytes) != 32:

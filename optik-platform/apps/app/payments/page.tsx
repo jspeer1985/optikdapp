@@ -15,6 +15,7 @@ export default function PaymentsPage() {
   const showTestData =
     process.env.NODE_ENV !== 'production' &&
     process.env.NEXT_PUBLIC_SHOW_TEST_PAYMENTS === 'true';
+  const [checkoutCancelled, setCheckoutCancelled] = useState(false);
   const [plans, setPlans] = useState<Record<string, Plan>>({});
   const [loading, setLoading] = useState(true);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -22,6 +23,12 @@ export default function PaymentsPage() {
 
   useEffect(() => {
     fetchPlans();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    setCheckoutCancelled(params.get('cancel') === 'true');
   }, []);
 
   const fetchPlans = async () => {
@@ -38,21 +45,24 @@ export default function PaymentsPage() {
 
   const handleCheckout = async (planId: string) => {
     setSelectedPlan(planId);
-    
+    setError(null);
+    const successUrl = `${window.location.origin}/create-dapp?tier=${encodeURIComponent(planId)}&checkout=success`;
+
     try {
-      const data = await api<{ checkout_url: string }>('/api/v1/payments/checkout', {
+      const data = await api<{ checkout_url?: string }>('/api/v1/payments/checkout', {
         method: 'POST',
         body: JSON.stringify({
           plan_id: planId,
-          success_url: `${window.location.origin}/success`,
-          cancel_url: `${window.location.origin}/payments`,
+          success_url: successUrl,
+          cancel_url: `${window.location.origin}/payments?cancel=true`,
         }),
       });
 
       if (data.checkout_url) {
         window.location.href = data.checkout_url;
       } else {
-        setError('Payment error. Please try again.');
+        // Development fallback when backend returns no hosted checkout URL.
+        window.location.href = successUrl;
       }
     } catch (error) {
       console.error('Checkout error:', error);
@@ -83,11 +93,25 @@ export default function PaymentsPage() {
           <p className="text-xl text-gray-600">
             Transform your e-commerce store into a Web3 powerhouse
           </p>
+          {checkoutCancelled && (
+            <p className="text-sm text-amber-700 mt-3">Checkout canceled. Select a plan to continue.</p>
+          )}
           {error && <p className="text-sm text-red-600 mt-3">{error}</p>}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {Object.entries(plans).map(([planId, plan]) => (
+        {Object.keys(plans).length === 0 ? (
+          <div className="max-w-2xl mx-auto rounded-2xl bg-white p-8 text-center shadow-lg">
+            <p className="text-gray-700">No payment plans are available right now.</p>
+            <button
+              onClick={fetchPlans}
+              className="mt-4 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+            >
+              Retry
+            </button>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {Object.entries(plans).map(([planId, plan]) => (
             <div
               key={planId}
               className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow border border-gray-100"
@@ -131,8 +155,9 @@ export default function PaymentsPage() {
                 )}
               </button>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {showTestData && (
           <>

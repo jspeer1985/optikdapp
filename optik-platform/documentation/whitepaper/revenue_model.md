@@ -68,9 +68,9 @@ Token value may be influenced by:
 
 If:
 
-* 60% of tokens are staked
-* 20% locked in treasury
-* 10% reserved for ecosystem incentives
+- 60% of tokens are staked
+- 20% locked in treasury
+- 10% reserved for ecosystem incentives
 
 Only 10% remain actively liquid, increasing scarcity under rising demand.
 
@@ -116,9 +116,9 @@ Triggered after 6 months of active sales.
 
 ## Buyer Incentive Airdrops
 
-* First-time buyer rebates
-* Loyalty-based token distribution
-* Volume-based cashback
+- First-time buyer rebates
+- Loyalty-based token distribution
+- Volume-based cashback
 
 This converts airdrops into growth multipliers rather than dilution events.
 
@@ -132,18 +132,18 @@ Staking is directly tied to platform revenue.
 
 Platform Fees Split Example:
 
-* 40% Merchant Net
-* 20% Platform Treasury
-* 20% Staking Pool
-* 10% Liquidity Support
-* 10% Ecosystem Development
+- 40% Merchant Net
+- 20% Platform Treasury
+- 20% Staking Pool
+- 10% Liquidity Support
+- 10% Ecosystem Development
 
 Staking APY dynamically adjusts based on:
 
-* Network volume
-* Fee generation
-* Token velocity
-* Locked supply ratio
+- Network volume
+- Fee generation
+- Token velocity
+- Locked supply ratio
 
 Higher transaction volume = larger staking pool = increased staking attractiveness.
 
@@ -153,23 +153,23 @@ Higher transaction volume = larger staking pool = increased staking attractivene
 
 Bronze Tier
 
-* Basic staking yield
+- Basic staking yield
 
 Silver Tier
 
-* Reduced merchant fees
-* Priority support
+- Reduced merchant fees
+- Priority support
 
 Gold Tier
 
-* Increased fee rebates
-* Governance voting weight
-* Early feature access
+- Increased fee rebates
+- Governance voting weight
+- Early feature access
 
 Institutional Tier
 
-* Revenue participation models
-* Strategic governance participation
+- Revenue participation models
+- Strategic governance participation
 
 ---
 
@@ -202,11 +202,11 @@ The objective is to build a transaction-backed token economy rather than a specu
 
 All revenue and token projections are scenario-based illustrations and depend on:
 
-* Merchant adoption
-* Market conditions
-* Regulatory developments
-* Technical execution
-* Competitive landscape
+- Merchant adoption
+- Market conditions
+- Regulatory developments
+- Technical execution
+- Competitive landscape
 
 There is no guarantee of returns or token price performance.
 

@@ -21,12 +21,18 @@ async function refreshSession(): Promise<void> {
 export async function api<T = unknown>(endpoint: string, init?: RequestInit): Promise<T> {
   const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
   const baseHeaders =
-    init?.headers instanceof Headers ? Object.fromEntries(init.headers.entries()) : (init?.headers || {});
+    init?.headers instanceof Headers
+      ? Object.fromEntries(init.headers.entries())
+      : Array.isArray(init?.headers)
+        ? Object.fromEntries(init.headers)
+        : (init?.headers || {});
 
-  const headers = {
-    'Content-Type': 'application/json',
-    ...baseHeaders,
-  } as Record<string, string>;
+  const headers = { ...baseHeaders } as Record<string, string>;
+  const hasContentType = Object.keys(headers).some((key) => key.toLowerCase() === 'content-type');
+  const isFormData = typeof FormData !== 'undefined' && init?.body instanceof FormData;
+  if (!hasContentType && !isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   const res = await fetch(url, {
     ...init,
@@ -34,7 +40,8 @@ export async function api<T = unknown>(endpoint: string, init?: RequestInit): Pr
     headers,
   });
 
-  if (res.status === 401 && headers['x-auth-retry'] !== '1') {
+  const authRetryHeader = headers['x-auth-retry'] || headers['X-Auth-Retry'];
+  if (res.status === 401 && authRetryHeader !== '1') {
     await refreshSession();
     return api<T>(endpoint, {
       ...init,
@@ -44,9 +51,31 @@ export async function api<T = unknown>(endpoint: string, init?: RequestInit): Pr
 
   if (!res.ok) {
     const text = await res.text();
-    throw new Error(`API ${res.status}: ${text}`);
+    let detail = text || res.statusText;
+    if (text) {
+      try {
+        const parsed = JSON.parse(text) as { detail?: string; message?: string };
+        detail = parsed.detail || parsed.message || text;
+      } catch {
+        detail = text;
+      }
+    }
+    throw new Error(`API ${res.status}: ${detail}`);
   }
-  return (await res.json()) as T;
+
+  if (res.status === 204) {
+    return undefined as T;
+  }
+
+  const contentType = res.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
+    return (await res.json()) as T;
+  }
+  if (!contentType) {
+    return undefined as T;
+  }
+
+  return (await res.text()) as T;
 }
 
 export interface ConversionResponse {

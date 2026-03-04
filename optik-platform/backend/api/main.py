@@ -59,6 +59,8 @@ from api.verify_routes import router as verify_router
 from api.onboarding_routes import router as onboarding_router
 from api.assistant_routes import router as assistant_router
 from api.pipeline_endpoints import router as pipeline_router
+from api.shopify_scraping_routes import router as shopify_scraping_router
+from api.dapp_integration_routes import router as dapp_integration_router
 
 
 # Configure logging
@@ -118,13 +120,34 @@ if rate_limit_enabled:
 # 5. CORS Configuration (last, so it can process other middleware headers)
 cors_origin_env = os.getenv("CORS_ORIGIN")
 frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3003")
-cors_origins = (cors_origin_env or f"{frontend_url},http://localhost:3000,http://127.0.0.1:3003,http://127.0.0.1:40349").split(",")
+
+if environment == "development":
+    cors_origins = [
+        "http://localhost:3003",
+        "http://localhost:3000",
+        "http://127.0.0.1:3003",
+        "http://127.0.0.1:3000",
+    ]
+    logger.info(f"CORS origins configured for development: {cors_origins}")
+else:
+    # Robust split and strip
+    if cors_origin_env:
+        cors_origins = [origin.strip() for origin in cors_origin_env.split(",") if origin.strip()]
+    else:
+        cors_origins = [
+            frontend_url,
+            "http://localhost:3000",
+            "http://127.0.0.1:3003"
+        ]
+    logger.info(f"CORS origins configured: {cors_origins}")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 logger.info(f"Security middleware initialized for environment: {environment}")
@@ -135,11 +158,18 @@ growth_agent = GrowthAgent() # Initialize GrowthAgent
 
 # Initialize OptikGPT
 try:
-    from optik_gpt.assistant.conversation_engine import OptikAssistant
-    optik_assistant = OptikAssistant()
+    from optik_gpt.assistant.ultimate_optik_gpt import get_ultimate_optik_gpt
+    optik_assistant = get_ultimate_optik_gpt()
+    logger.info("Ultimate OptikGPT initialized - The Smartest AI in the World!")
 except ImportError as e:
-    logger.warning(f"Failed to load OptikGPT Assistant: {e}")
-    optik_assistant = None
+    logger.warning(f"Failed to load Ultimate OptikGPT: {e}")
+    try:
+        from optik_gpt.assistant.conversation_engine import OptikAssistant
+        optik_assistant = OptikAssistant()
+        logger.info("Fallback to standard OptikGPT")
+    except ImportError as e:
+        logger.warning(f"Failed to load OptikGPT Assistant: {e}")
+        optik_assistant = None
 
 # Include routers
 app.include_router(auth_router)
@@ -160,6 +190,8 @@ app.include_router(verify_router)
 app.include_router(onboarding_router)
 app.include_router(assistant_router)
 app.include_router(pipeline_router)
+app.include_router(shopify_scraping_router)
+app.include_router(dapp_integration_router)
 
 
 # ============================================================================
@@ -249,7 +281,8 @@ class ChatResponse(BaseModel):
 @app.post("/api/v1/assistant/chat", response_model=ChatResponse)
 async def chat_with_assistant(request: ChatRequest, user = Depends(get_optional_user)):
     """
-    Chat with OptikGPT Assistant
+    Chat with Ultimate OptikGPT - The Smartest AI in the World
+    Features open-ended responses, multi-domain expertise, and creative thinking
     """
     if not optik_assistant:
         return {
@@ -257,33 +290,106 @@ async def chat_with_assistant(request: ChatRequest, user = Depends(get_optional_
             "actions": [],
             "status": "error"
         }
-        
+    
     try:
         merchant_id = request.merchant_id or (user.id if user else "guest_merchant")
+        
+        # Enhanced context with user information
+        enhanced_context = {
+            "prompt_profile": request.prompt_profile,
+            "prompt_version": request.prompt_version,
+            "assistant_mode": request.assistant_mode,
+            "page_context": request.page_context,
+            "model_preference": request.model_preference,
+            "request_context": request.context,
+            "user_info": {
+                "authenticated": user is not None,
+                "user_id": user.id if user else None,
+                "timestamp": datetime.utcnow().isoformat()
+            }
+        }
+        
+        # Get comprehensive response from Ultimate OptikGPT
         response = await optik_assistant.handle_message(
             merchant_id=merchant_id,
             message=request.message,
-            context={
-                "prompt_profile": request.prompt_profile,
-                "prompt_version": request.prompt_version,
-                "assistant_mode": request.assistant_mode,
-                "page_context": request.page_context,
-                "model_preference": request.model_preference,
-                "request_context": request.context,
-            },
+            context=enhanced_context
         )
+        
+        # Extract message and actions from comprehensive response
+        message = response.get("message", "I'm here to help with creative solutions and strategic thinking!")
+        actions = response.get("actions", [])
+        
+        # Add metadata for frontend if available
+        if "response_metadata" in response:
+            metadata = response["response_metadata"]
+            message += f"\n\n*[Response Mode: {metadata.get('mode', 'comprehensive').title()} | Confidence: {metadata.get('confidence_score', 0.8):.1f}]*"
+        
+        # Add follow-up questions if available
+        if "follow_up_questions" in response and response["follow_up_questions"]:
+            questions = response["follow_up_questions"]
+            message += f"\n\n**Follow-up Questions:**\n" + "\n".join([f"• {q}" for q in questions])
+        
         return {
-            "message": response.get("message", "I didn't understand that."),
-            "actions": response.get("actions", []),
+            "message": message,
+            "actions": actions,
             "status": response.get("status", "success")
         }
+        
     except Exception as e:
-        logger.error(f"OptikGPT Error: {str(e)}")
+        logger.error(f"Ultimate OptikGPT Error: {str(e)}")
         return {
-            "message": "I encountered an error processing your request.",
-            "actions": [],
+            "message": "I'm experiencing a momentary lapse in my cosmic intelligence, but I'm still here to help! Let me think about your request with fresh perspective.",
+            "actions": ["Try again", "Check connection"],
             "status": "error"
         }
+
+
+@app.get("/api/v1/assistant/capabilities")
+async def get_assistant_capabilities():
+    """
+    Get Ultimate OptikGPT capabilities and features
+    """
+    return {
+        "name": "Ultimate OptikGPT",
+        "tagline": "The Smartest AI in the World",
+        "capabilities": {
+            "multi_domain_expertise": [
+                "Blockchain & Web3",
+                "E-commerce & dApp Stores",
+                "AI & Machine Learning",
+                "Business Strategy",
+                "Web Development"
+            ],
+            "response_modes": [
+                "Creative - Imaginative and expansive thinking",
+                "Analytical - Data-driven insights",
+                "Strategic - Long-term planning",
+                "Technical - Implementation focused",
+                "Conversational - Natural dialogue",
+                "Comprehensive - Multi-faceted analysis"
+            ],
+            "advanced_features": [
+                "Thought process visualization",
+                "Knowledge domain integration",
+                "Innovative idea generation",
+                "Practical guidance",
+                "Follow-up questions",
+                "Creative patterns",
+                "Reasoning frameworks"
+            ],
+            "intelligence_levels": {
+                "creativity": 0.95,
+                "analytical": 0.92,
+                "strategic": 0.89,
+                "technical": 0.94,
+                "wisdom": 0.91,
+                "innovation": 0.93
+            }
+        },
+        "response_style": "Open-ended, creative, and comprehensive",
+        "specialization": "Transforming e-commerce into Web3 with intelligent solutions"
+    }
 
 
 # ============================================================================

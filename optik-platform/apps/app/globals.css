@@ -1,4 +1,4 @@
-@import '@solana/wallet-adapter-react-ui/styles.css';
+@import "@solana/wallet-adapter-react-ui/styles.css";
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,8 @@
 
 /* ---------- BASE ---------- */
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -15,9 +16,12 @@ html, body {
 .app-body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: radial-gradient(circle at 20% 20%, rgba(0,186,255,0.08), transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(0,255,180,0.06), transparent 45%),
-              #05070c;
+  background-image: linear-gradient(rgba(5, 7, 12, 0.7), rgba(5, 7, 12, 0.7)),
+    url("/circuit_bg.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   color: white;
 }
 
@@ -38,7 +42,7 @@ html, body {
 }
 
 .section-muted {
-  background: rgba(255,255,255,0.02);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 /* ---------- CONTAINER ---------- */
@@ -64,9 +68,12 @@ html, body {
   position: absolute;
   inset: 0;
   filter: blur(60px);
-  background:
-    radial-gradient(circle at 30% 30%, rgba(0,186,255,0.15), transparent 40%),
-    radial-gradient(circle at 70% 70%, rgba(0,255,200,0.12), transparent 40%);
+  background: radial-gradient(
+      circle at 30% 30%,
+      rgba(0, 186, 255, 0.15),
+      transparent 40%
+    ),
+    radial-gradient(circle at 70% 70%, rgba(0, 255, 200, 0.12), transparent 40%);
   z-index: -1;
 }
 
@@ -106,7 +113,7 @@ html, body {
 }
 
 .btn-secondary {
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 14px 26px;
   border-radius: 12px;
 }
@@ -115,24 +122,25 @@ html, body {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 40px;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 40px;
 }
 
 /* ---------- CARDS ---------- */
 
 .feature-card {
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   padding: 28px;
   border-radius: 18px;
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .stat h3 {

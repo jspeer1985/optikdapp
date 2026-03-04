@@ -18,10 +18,12 @@ export default function SubscriptionPage() {
         api('/api/v1/payments/subscriptions')
             .then((data) => {
                 setSubscriptions(data as any[]);
+                setError(null);
                 setLoading(false);
             })
             .catch(err => {
                 console.error('Failed to fetch subscriptions', err);
+                setError('Failed to load subscriptions.');
                 setLoading(false);
             });
     }, []);

@@ -10,7 +10,7 @@ import {
 } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { AuthProvider } from './context/AuthContext';
 
@@ -49,9 +49,11 @@ export default function Providers({
 }) {
     const network = useMemo(resolveNetwork, []);
     const endpoint = useMemo(() => resolveRpcEndpoint(network), [network]);
+    // NOTE: PhantomWalletAdapter is intentionally omitted — Phantom auto-registers
+    // via the Wallet Standard, so adding it explicitly would duplicate it and
+    // trigger a "can be removed" console warning.
     const wallets = useMemo(
         () => [
-            new PhantomWalletAdapter(),
             new SolflareWalletAdapter({ network }),
         ],
         [network]
