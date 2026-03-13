@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "name": "optik-platform",
+  "rootDirectory": "optik-platform/apps",
+  "buildCommand": "cd optik-platform/apps && npm run build",
+  "outputDirectory": "optik-platform/apps/.next",
+  "installCommand": "cd optik-platform/apps && npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@api-url",
+    "NEXT_PUBLIC_OPTIK_TOKEN_MINT": "@optik-token-mint"
+  }
+}
