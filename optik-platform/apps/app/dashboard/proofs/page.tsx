@@ -11,7 +11,7 @@ interface ProofRecord {
   status?: string;
   owner_agent?: string;
   created_at?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 export default function ProofDashboard() {
@@ -25,8 +25,8 @@ export default function ProofDashboard() {
       try {
         const response = await api<{ proofs: ProofRecord[] }>('/api/v1/system/proofs');
         if (mounted) setProofs(response.proofs || []);
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load proofs.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load proofs.');
       } finally {
         if (mounted) setLoading(false);
       }

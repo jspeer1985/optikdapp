@@ -27,7 +27,7 @@ type ProofRecord = {
   status?: string;
   owner_agent?: string;
   created_at?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 };
 
 export default function OrchestratorPage() {
@@ -52,8 +52,8 @@ export default function OrchestratorPage() {
           setStatus(statusRes);
           setJobs(jobsRes.jobs || []);
         }
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load orchestrator status.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load orchestrator status.');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -76,8 +76,8 @@ export default function OrchestratorPage() {
         const endpoint = query ? `/api/v1/system/proofs?${query}` : '/api/v1/system/proofs';
         const response = await api<{ proofs: ProofRecord[] }>(endpoint);
         if (mounted) setProofs(response.proofs || []);
-      } catch (err: any) {
-        if (mounted) setProofError(err.message || 'Failed to load proofs.');
+      } catch (err: unknown) {
+        if (mounted) setProofError(err instanceof Error ? err.message : 'Failed to load proofs.');
       } finally {
         if (mounted) setProofLoading(false);
       }

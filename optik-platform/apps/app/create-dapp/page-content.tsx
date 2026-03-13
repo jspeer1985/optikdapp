@@ -30,18 +30,17 @@ interface ConversionResult {
 export default function StoreConverter() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { connected, publicKey } = useWallet();
+  const { connected } = useWallet();
   const { user } = useAuth();
   const [storeUrl, setStoreUrl] = useState('');
   const [platform, setPlatform] = useState<'shopify' | 'woocommerce'>('shopify');
   const [email, setEmail] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [apiSecret, setApiSecret] = useState('');
-  const [loading, setLoading] = useState(false);
   const [jobId, setJobId] = useState<string | null>(null);
   const [status, setStatus] = useState<'idle' | 'pending' | 'scraping' | 'analyzing' | 'converting' | 'generating_nfts' | 'completed' | 'failed' | 'deploying' | 'deployed'>('idle');
   const [deploymentStep, setDeploymentStep] = useState('');
-  const [deploymentSys, setDeploymentSys] = useState('');
+  const [deploymentSys] = useState('');
   const [progress, setProgress] = useState(0);
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [deployedAddress, setDeployedAddress] = useState<string | null>(null);
@@ -70,7 +69,7 @@ export default function StoreConverter() {
   }, [user]);
 
   const fetchPreview = async (id: string) => {
-    const data = await api<any>(`/api/v1/convert/preview/${id}`);
+    const data = await api<ConversionResult>(`/api/v1/convert/preview/${id}`);
     setResult({
       store: data.store,
       products: data.products || [],
@@ -79,7 +78,7 @@ export default function StoreConverter() {
 
   // Poll for status if we have a jobId
   useEffect(() => {
-    let interval: any;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (jobId && !['completed', 'failed', 'deployed'].includes(status)) {
       interval = setInterval(async () => {
         try {
@@ -115,7 +114,6 @@ export default function StoreConverter() {
       return;
     }
 
-    setLoading(true);
     setError(null);
     try {
       const response = await optikApi.submitConversion({
@@ -129,10 +127,8 @@ export default function StoreConverter() {
       setJobId(response.job_id);
       setStatus('scraping');
       setProgress(10);
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit conversion');
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to submit conversion');
     }
   };
 
@@ -145,8 +141,8 @@ export default function StoreConverter() {
     try {
       await optikApi.startDeployment(jobId);
       // Status polling will take over from here
-    } catch (err: any) {
-      setError(err.message || 'Failed to start deployment');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to start deployment');
       setStatus('failed');
     }
   };
@@ -546,7 +542,7 @@ export default function StoreConverter() {
                   </div>
                   <h2 className="text-3xl font-bold text-white">Conversion Complete!</h2>
                   <p className="text-gray-400 max-w-md mx-auto">
-                    We've successfully converted your <strong>{result?.store.platform}</strong> store. Your Web3-optimized products are ready for deployment.
+                    We&apos;ve successfully converted your <strong>{result?.store.platform}</strong> store. Your Web3-optimized products are ready for deployment.
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
@@ -591,7 +587,7 @@ export default function StoreConverter() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <span className="text-blue-500 font-bold">✦</span>
-                <span className="text-gray-400">Eliminate high transaction fees with Solana's fraction-of-a-cent costs.</span>
+                <span className="text-gray-400">Eliminate high transaction fees with Solana&apos;s fraction-of-a-cent costs.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-500 font-bold">✦</span>

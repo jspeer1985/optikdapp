@@ -29,8 +29,8 @@ export default function SecurityControl() {
           setEvents(eventsRes.events || []);
           setWhitelist(whitelistRes.ips || []);
         }
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load security data.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load security data.');
       }
     };
     loadSecurity();
@@ -53,8 +53,8 @@ export default function SecurityControl() {
       setWhitelist([...whitelist, newIp.trim()]);
       setNewIp('');
       setStatus('IP added to whitelist.');
-    } catch (err: any) {
-      setError(err.message || 'Failed to add IP.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to add IP.');
     }
   };
 
@@ -64,8 +64,8 @@ export default function SecurityControl() {
     try {
       await api('/api/v1/security/freeze', { method: 'POST' });
       setStatus('Freeze request submitted.');
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit freeze request.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to submit freeze request.');
     }
   };
 

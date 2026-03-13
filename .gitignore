@@ -4,18 +4,19 @@
 *.env
 *.env.*
 
-# Python
-.venv/
+# Python virtual environments
 venv/
+.venv/
+*/venv/
 __pycache__/
 *.pyc
 *.pyo
 dist/
 build/
 
-# Node modules
-/node_modules
+# Node modules (all locations)
 node_modules/
+node_quickstart/node_modules/
 
 # Compilation output
 /dist
@@ -26,9 +27,6 @@ node_modules/
 # Hardhat Build Artifacts
 /artifacts
 artifacts/
-
-# Hardhat compilation (v2) support directory
-/cache
 cache/
 
 # Typechain output
@@ -70,6 +68,9 @@ managed_context/
 
 # Misc
 .shopify
+file_tree.txt
+project_structure.txt
+stripe_audit_files.txt
 
 # === Auto-added by cleanup.sh ===
 # Python

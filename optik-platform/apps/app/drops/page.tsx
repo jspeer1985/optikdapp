@@ -22,8 +22,8 @@ export default function DropsPage() {
       try {
         const data = await api<{ dapps: DappListing[] }>('/api/v1/dapps/public');
         if (mounted) setDrops(data.dapps || []);
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load drops.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load drops.');
       } finally {
         if (mounted) setLoading(false);
       }

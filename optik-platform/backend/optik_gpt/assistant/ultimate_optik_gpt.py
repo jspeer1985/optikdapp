@@ -111,6 +111,15 @@ class UltimateOptikGPT:
         
     def _initialize_api_clients(self):
         """Initialize API clients with advanced configurations"""
+        provider = os.getenv("OPTIK_ASSISTANT_PROVIDER", "anthropic").lower()
+        
+        if provider == "local":
+            # Local mode - no API clients needed
+            self.anthropic_client = None
+            self.openai_client = None
+            logger.info("OptikGPT running in local mode - no external API calls")
+            return
+        
         anthropic_key = os.getenv("ANTHROPIC_API_KEY")
         openai_key = os.getenv("OPENAI_API_KEY")
         
@@ -341,7 +350,15 @@ class UltimateOptikGPT:
                     )
                     return response.content[0].text if response.content else ""
                 except Exception as e:
-                    logger.warning(f"Anthropic failed: {e}")
+                    error_msg = str(e)
+                    if "credit balance" in error_msg.lower():
+                        logger.warning(f"Anthropic credits exhausted: {e}")
+                        return "I'm currently experiencing high demand or credit limits with my AI providers. The system is working correctly, but I need API credits to provide full responses. Please check your Anthropic account billing or try again later."
+                    elif "rate" in error_msg.lower() or "limit" in error_msg.lower():
+                        logger.warning(f"Anthropic rate limited: {e}")
+                        return "I'm experiencing high demand right now. Please try again in a moment - I'm here and ready to help!"
+                    else:
+                        logger.warning(f"Anthropic failed: {e}")
             
             if self.openai_client:
                 try:
@@ -353,7 +370,12 @@ class UltimateOptikGPT:
                     )
                     return response.choices[0].message.content or ""
                 except Exception as e:
-                    logger.warning(f"OpenAI failed: {e}")
+                    error_msg = str(e)
+                    if "rate" in error_msg.lower() or "limit" in error_msg.lower():
+                        logger.warning(f"OpenAI rate limited: {e}")
+                        return "I'm experiencing high demand right now. Please try again in a moment - I'm here and ready to help!"
+                    else:
+                        logger.warning(f"OpenAI failed: {e}")
             
             return "I apologize, but I'm experiencing technical difficulties. Please try again later."
     
@@ -626,6 +648,16 @@ class UltimateOptikGPT:
         """
         if context is None:
             context = {}
+        
+        # Check if running in local mode
+        provider = os.getenv("OPTIK_ASSISTANT_PROVIDER", "anthropic").lower()
+        if provider == "local":
+            return {
+                "status": "success",
+                "message": "OptikGPT AI features are currently disabled. To enable AI assistance, please configure valid API keys in the backend environment settings. You can add ANTHROPIC_API_KEY or OPENAI_API_KEY to enable AI-powered responses.",
+                "actions": ["Configure API keys", "Check documentation", "Contact support"],
+                "follow_up_questions": ["Would you like help with API key setup?", "What other features can I help you with?"]
+            }
         
         # Get session or create new one
         session = self.sessions.get(merchant_id, {

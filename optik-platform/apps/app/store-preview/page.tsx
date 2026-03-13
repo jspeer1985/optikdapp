@@ -103,9 +103,9 @@ function StorefrontPreviewContent() {
             setPreview(null);
           }
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (isMounted) {
-          setError(err.message || 'Failed to load preview data');
+          setError(err instanceof Error ? err.message : 'Failed to load preview data');
         }
       } finally {
         if (isMounted) {
@@ -145,8 +145,8 @@ function StorefrontPreviewContent() {
       } else {
         throw new Error('Stripe checkout URL missing');
       }
-    } catch (err: any) {
-      setError(err.message || 'Failed to start Stripe checkout');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to start Stripe checkout');
     } finally {
       setProcessing(false);
     }
@@ -188,8 +188,8 @@ function StorefrontPreviewContent() {
       await connection.confirmTransaction(signature, 'confirmed');
 
       setStatusMessage('Payment confirmed on-chain');
-    } catch (err: any) {
-      setError(err.message || 'Solana payment failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Solana payment failed');
       setStatusMessage(null);
     } finally {
       setProcessing(false);

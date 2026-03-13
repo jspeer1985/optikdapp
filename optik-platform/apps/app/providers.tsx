@@ -5,12 +5,13 @@ import {
     WalletAdapterNetwork,
     WalletConnectionError,
     WalletNotReadyError,
-    WalletReadyState,
-    type Adapter,
 } from '@solana/wallet-adapter-base';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
-import { SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { 
+    PhantomWalletAdapter,
+    SolflareWalletAdapter
+} from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
 import { AuthProvider } from './context/AuthContext';
 
@@ -31,16 +32,9 @@ function resolveNetwork(): WalletAdapterNetwork {
 }
 
 function resolveRpcEndpoint(network: WalletAdapterNetwork): string {
-    return process.env.NEXT_PUBLIC_RPC_ENDPOINT || process.env.NEXT_PUBLIC_SOLANA_RPC || clusterApiUrl(network);
+    return process.env.NEXT_PUBLIC_RPC_ENDPOINT || process.env.NEXT_PUBLIC_SOLANA_RPC_URL || clusterApiUrl(network);
 }
 
-async function shouldAutoConnect(adapter: Adapter): Promise<boolean> {
-    console.log(`[wallet:autoconnect] Checking adapter: ${adapter.name}, readyState: ${adapter.readyState}`);
-    return (
-        adapter.readyState === WalletReadyState.Installed ||
-        adapter.readyState === WalletReadyState.Loadable
-    );
-}
 
 export default function Providers({
     children,
@@ -49,11 +43,10 @@ export default function Providers({
 }) {
     const network = useMemo(resolveNetwork, []);
     const endpoint = useMemo(() => resolveRpcEndpoint(network), [network]);
-    // NOTE: PhantomWalletAdapter is intentionally omitted — Phantom auto-registers
-    // via the Wallet Standard, so adding it explicitly would duplicate it and
-    // trigger a "can be removed" console warning.
+    // Include both Phantom and Solflare for maximum compatibility
     const wallets = useMemo(
         () => [
+            new PhantomWalletAdapter({ network }),
             new SolflareWalletAdapter({ network }),
         ],
         [network]

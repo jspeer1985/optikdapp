@@ -1,0 +1,34 @@
+{
+  "uploads": [
+    {
+      "file": "optik-metadata.json",
+      "ipfs_hash": "QmNq8JeF3QT5t5zUF2LCVMnmJyCXjRicE3G5xqVXAH6Syd",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmNq8JeF3QT5t5zUF2LCVMnmJyCXjRicE3G5xqVXAH6Syd"
+    },
+    {
+      "file": "optik-token.json",
+      "ipfs_hash": "QmdycksyR39yeWUnHBv2AL4FL329cx1JAKfyZ4zj2YFayD",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmdycksyR39yeWUnHBv2AL4FL329cx1JAKfyZ4zj2YFayD"
+    },
+    {
+      "file": "registry.json",
+      "ipfs_hash": "QmW2ChxCHMdo3ZL545Ju1ywoTb4yaBV1KdKYqRb7u1qnGv",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmW2ChxCHMdo3ZL545Ju1ywoTb4yaBV1KdKYqRb7u1qnGv"
+    },
+    {
+      "file": "metadata.json",
+      "ipfs_hash": "QmRugD3Y3A8zrv2cdZ7qagxXUiHUthubWY7B9mn6JLa2fw",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmRugD3Y3A8zrv2cdZ7qagxXUiHUthubWY7B9mn6JLa2fw"
+    },
+    {
+      "file": "mcp_servers.json",
+      "ipfs_hash": "QmRV7EKEUPUBTMDMKoug6cAvXEWTs6Tff3AToXLmySBQ1n",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmRV7EKEUPUBTMDMKoug6cAvXEWTs6Tff3AToXLmySBQ1n"
+    },
+    {
+      "file": "optik_metadata_collection.json",
+      "ipfs_hash": "QmbjFYkjK3e2KAensj49RapgWamqDMxHnGETFUfGAtBNwC",
+      "gateway_url": "https://plum-gigantic-mammal-466.mypinata.cloud/ipfs/QmbjFYkjK3e2KAensj49RapgWamqDMxHnGETFUfGAtBNwC"
+    }
+  ]
+}

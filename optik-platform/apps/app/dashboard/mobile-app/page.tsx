@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Button from '@/components/ui/Button';
 import { api } from '@/lib/api';
 
 export default function MobileAppBuilder() {
@@ -47,8 +46,8 @@ export default function MobileAppBuilder() {
                 }),
             });
             setStatus('Build request submitted. Our team will follow up with next steps.');
-        } catch (err: any) {
-            setError(err.message || 'Failed to submit build request.');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Failed to submit build request.');
         } finally {
             setBuilding(false);
         }

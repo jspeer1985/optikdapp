@@ -1,0 +1,13 @@
+[toolchain]
+anchor_version = "0.32.1"
+
+[features]
+seeds = true
+skip-lint = false
+
+[programs.localnet]
+nft_pairer = "9dKgjdntLkaMpqFoeA4mVMa3gerh9DQbLt4hH2aebANX"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"

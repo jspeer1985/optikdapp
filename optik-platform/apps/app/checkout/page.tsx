@@ -47,8 +47,8 @@ export default function CheckoutPage() {
                 // Development fallback for environments without hosted checkout.
                 router.push(successPath);
             }
-        } catch (err: any) {
-            setError(err.message || 'Unable to start checkout. Please try again.');
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Unable to start checkout. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -67,7 +67,7 @@ export default function CheckoutPage() {
                         Choose your <span className="gradient-text italic">Partnership</span>
                     </h1>
                     <p className="text-gray-400 text-lg leading-relaxed">
-                        Optik doesn't charge subscription fees. We succeed when you succeed. Select an AI labor tier based on your required workforce.
+                        Optik doesn&apos;t charge subscription fees. We succeed when you succeed. Select an AI labor tier based on your required workforce.
                     </p>
                     {checkoutCancelled && (
                         <p className="text-sm text-amber-400">Checkout canceled. Choose a plan to continue.</p>

@@ -36,9 +36,9 @@ export default function BillingHistoryPage() {
         if (mounted) {
           setInvoices(data.invoices || []);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (mounted) {
-          setError(err.message || 'Failed to load invoices');
+          setError(err instanceof Error ? err.message : 'Failed to load invoices');
         }
       } finally {
         if (mounted) setLoading(false);

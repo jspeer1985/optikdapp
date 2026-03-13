@@ -22,18 +22,11 @@ def add_security_headers_middleware(app: FastAPI, environment: str = "production
     async def security_headers_middleware(request: Request, call_next):
         response = await call_next(request)
 
-        # Content Security Policy (CSP)
+        # Content Security Policy (CSP) — API only serves JSON, no inline scripts needed
         response.headers["Content-Security-Policy"] = (
-            "default-src 'self'; "
-            "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; "
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-            "img-src 'self' data: https: blob:; "
-            "font-src 'self' https://fonts.gstatic.com data:; "
-            "connect-src 'self' https:; "
+            "default-src 'none'; "
             "frame-ancestors 'none'; "
-            "form-action 'self'; "
-            "upgrade-insecure-requests; "
-            "block-all-mixed-content"
+            "form-action 'none'"
         )
 
         # HTTP Strict-Transport-Security (HSTS) - force HTTPS
@@ -109,17 +102,11 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         self.enable_csp = enable_csp
         self.environment = environment
 
-        # Default CSP directives
+        # Default CSP directives — API only, no HTML served, so lockdown completely
         self.csp_directives = csp_directives or {
-            "default-src": ["'self'"],
-            "script-src": ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
-            "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-            "img-src": ["'self'", "data:", "https:", "blob:"],
-            "font-src": ["'self'", "https://fonts.gstatic.com"],
-            "connect-src": ["'self'", "https://api.devnet.solana.com", "https://api.mainnet-beta.solana.com"],
+            "default-src": ["'none'"],
             "frame-ancestors": ["'none'"],
-            "base-uri": ["'self'"],
-            "form-action": ["'self'"],
+            "form-action": ["'none'"],
         }
 
     def _build_csp_header(self) -> str:

@@ -113,7 +113,7 @@ export interface Integration {
 }
 
 export const optikApi = {
-  submitConversion: (data: any) =>
+  submitConversion: (data: Record<string, unknown>) =>
     api<ConversionResponse>('/api/v1/convert/submit', { method: 'POST', body: JSON.stringify(data) }),
 
   getConversionStatus: (jobId: string) =>
@@ -123,17 +123,17 @@ export const optikApi = {
     api<{ success: boolean; message: string }>(`/api/v1/deploy/start/${jobId}`, { method: 'POST' }),
 
   getAnalytics: (jobId: string) =>
-    api<any>(`/api/v1/analytics/${jobId}`),
+    api<Record<string, unknown>>(`/api/v1/analytics/${jobId}`),
 
   // Products
   getProducts: () => api<Product[]>('/api/v1/products/'),
   createProduct: (data: Omit<Product, 'id' | 'sold'>) => api<Product>('/api/v1/products/', { method: 'POST', body: JSON.stringify(data) }),
-  updateProduct: (id: string, data: Partial<Product>) => api<any>(`/api/v1/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteProduct: (id: string) => api<any>(`/api/v1/products/${id}`, { method: 'DELETE' }),
+  updateProduct: (id: string, data: Partial<Product>) => api<Product>(`/api/v1/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  deleteProduct: (id: string) => api<void>(`/api/v1/products/${id}`, { method: 'DELETE' }),
 
   // Integrations
   getIntegrations: () => api<Integration[]>('/api/v1/integrations/'),
-  connectIntegration: (id: string) => api<any>(`/api/v1/integrations/${id}/connect`, { method: 'POST' }),
-  disconnectIntegration: (id: string) => api<any>(`/api/v1/integrations/${id}/disconnect`, { method: 'POST' }),
+  connectIntegration: (id: string) => api<Record<string, unknown>>(`/api/v1/integrations/${id}/connect`, { method: 'POST' }),
+  disconnectIntegration: (id: string) => api<Record<string, unknown>>(`/api/v1/integrations/${id}/disconnect`, { method: 'POST' }),
 
 };

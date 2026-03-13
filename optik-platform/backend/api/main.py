@@ -5,7 +5,7 @@ Enterprise-grade FastAPI application for Web2→Web3 e-commerce conversion
 
 import os
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, HttpUrl, validator
@@ -145,12 +145,34 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-API-Key", "X-Request-ID", "X-CSRF-Token"],
+    expose_headers=["X-RateLimit-Limit-Minute", "X-RateLimit-Remaining-Minute",
+                    "X-RateLimit-Limit-Hour", "X-RateLimit-Remaining-Hour", "X-Request-ID"],
 )
 
 logger.info(f"Security middleware initialized for environment: {environment}")
+
+# 6. CSRF protection — reject state-changing requests from unknown origins
+_CSRF_SAFE_METHODS = {"GET", "HEAD", "OPTIONS"}
+_CSRF_EXEMPT_PATHS = {
+    "/api/v1/auth/wallet/nonce", "/api/v1/auth/wallet/verify",
+    "/api/v1/auth/magic-link", "/api/v1/auth/magic-link/verify",
+    "/api/v1/auth/refresh", "/api/v1/auth/logout",
+    "/health", "/metrics",
+}
+
+
+@app.middleware("http")
+async def csrf_protection(request: Request, call_next):
+    if request.method not in _CSRF_SAFE_METHODS and request.url.path not in _CSRF_EXEMPT_PATHS:
+        origin = request.headers.get("origin")
+        if origin and origin not in cors_origins:
+            from fastapi.responses import JSONResponse as _JR
+            logger.warning(f"CSRF check failed: origin={origin} path={request.url.path}")
+            return _JR({"detail": "Forbidden"}, status_code=403)
+    return await call_next(request)
+
 
 # Initialize managers
 # db is imported as singleton

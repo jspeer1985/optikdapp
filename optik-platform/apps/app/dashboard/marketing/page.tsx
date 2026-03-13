@@ -18,7 +18,7 @@ export default function MarketingControl() {
                 if (mounted) {
                     setLogs(data.logs || []);
                 }
-            } catch (err) {
+            } catch {
                 if (mounted) {
                     setLogs([]);
                 }

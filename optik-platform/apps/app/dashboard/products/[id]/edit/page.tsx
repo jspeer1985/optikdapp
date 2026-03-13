@@ -27,7 +27,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
         try {
             await optikApi.updateProduct(product.id, formData);
             router.push('/dashboard/products');
-        } catch (e) {
+        } catch {
             setError('Failed to update product.');
         }
     };

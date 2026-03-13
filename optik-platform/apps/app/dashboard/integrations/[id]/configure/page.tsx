@@ -11,8 +11,8 @@ export default function ConfigureIntegrationPage({ params }: { params: { id: str
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        optikApi.getIntegrations().then(ints => {
-            const i = ints.find(p => p.id === params.id);
+        optikApi.getIntegrations().then((ints: Integration[]) => {
+            const i = ints.find((p: Integration) => p.id === params.id);
             if (i) setIntegration(i);
             setLoading(false);
         });
@@ -24,7 +24,7 @@ export default function ConfigureIntegrationPage({ params }: { params: { id: str
             try {
                 await optikApi.disconnectIntegration(integration.id);
                 router.push('/dashboard/integrations');
-            } catch (e) {
+            } catch {
                 setError('Failed to disconnect integration.');
             }
         }

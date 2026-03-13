@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -19,6 +20,9 @@ from utils.security import (
     TokenError,
 )
 from utils.email import EmailClient
+from middleware.rate_limiter import RateLimiter
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
@@ -32,6 +36,18 @@ MAGIC_LINK_TTL_MINUTES = int(os.getenv("MAGIC_LINK_TTL_MINUTES", "15"))
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3003")
 
 email_client = EmailClient()
+
+# Strict per-IP rate limiters for auth endpoints
+_nonce_limiter = RateLimiter(requests_per_minute=5, requests_per_hour=30)
+_magic_link_limiter = RateLimiter(requests_per_minute=3, requests_per_hour=10)
+_verify_limiter = RateLimiter(requests_per_minute=5, requests_per_hour=20)
+
+
+def _client_ip(req: Request) -> str:
+    forwarded = req.headers.get("X-Forwarded-For")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return req.client.host if req.client else "unknown"
 
 
 class WalletNonceRequest(BaseModel):
@@ -103,7 +119,11 @@ def _clear_auth_cookies(response: Response):
 
 @router.post("/wallet/nonce")
 async def wallet_nonce(request: WalletNonceRequest, req: Request):
-    print(f"WALLET_NONCE REQUEST: {request.wallet_address}")
+    ip = _client_ip(req)
+    allowed, retry_after = _nonce_limiter.check_rate_limit(f"nonce:{ip}")
+    if not allowed:
+        raise HTTPException(status_code=429, detail="Too many requests", headers={"Retry-After": str(retry_after)})
+    logger.info("Wallet nonce requested")
     try:
         wallet_bytes = base58.b58decode(request.wallet_address)
         if len(wallet_bytes) != 32:
@@ -127,6 +147,10 @@ async def wallet_nonce(request: WalletNonceRequest, req: Request):
 
 @router.post("/wallet/verify")
 async def wallet_verify(request: WalletVerifyRequest, response: Response, req: Request):
+    ip = _client_ip(req)
+    allowed, retry_after = _verify_limiter.check_rate_limit(f"verify:{ip}")
+    if not allowed:
+        raise HTTPException(status_code=429, detail="Too many requests", headers={"Retry-After": str(retry_after)})
     nonce_record = await db.get_wallet_nonce(request.wallet_address, request.nonce)
     if not nonce_record:
         raise HTTPException(status_code=400, detail="Invalid or expired nonce")
@@ -180,7 +204,11 @@ async def wallet_verify(request: WalletVerifyRequest, response: Response, req: R
 
 
 @router.post("/magic-link")
-async def magic_link(request: MagicLinkRequest):
+async def magic_link(request: MagicLinkRequest, req: Request):
+    ip = _client_ip(req)
+    allowed, retry_after = _magic_link_limiter.check_rate_limit(f"magic:{ip}")
+    if not allowed:
+        raise HTTPException(status_code=429, detail="Too many requests", headers={"Retry-After": str(retry_after)})
     user = await db.get_user_by_email(request.email)
     if not user:
         user = await db.create_user(email=request.email, wallet_address=None)

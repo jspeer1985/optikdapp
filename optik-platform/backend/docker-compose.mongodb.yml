@@ -26,19 +26,19 @@ services:
       timeout: 5s
       retries: 5
 
-  # MongoDB Express UI (Optional - for local development)
+  # MongoDB Express UI (Optional - for local development only)
   mongo-express:
     image: mongo-express:latest
     container_name: optik-mongo-express
     restart: unless-stopped
     ports:
-      - "8081:8081"
+      - "127.0.0.1:8081:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${OPTIK_MONGO_ROOT_USER:?Set OPTIK_MONGO_ROOT_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${OPTIK_MONGO_ROOT_PASSWORD:?Set OPTIK_MONGO_ROOT_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${OPTIK_MONGO_ROOT_USER}:${OPTIK_MONGO_ROOT_PASSWORD}@mongodb:27017/
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_BASICAUTH_USERNAME: ${OPTIK_MONGO_ROOT_USER:-admin}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${OPTIK_MONGO_ROOT_PASSWORD:-changeme123}
     depends_on:
       - mongodb
     networks:
@@ -101,7 +101,7 @@ services:
       - /app/venv
     networks:
       - optik-network
-    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 volumes:
   mongodb_data:

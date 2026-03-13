@@ -5,11 +5,14 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import { api } from '@/lib/api';
 
-
-
+type Subscription = {
+    id: string;
+    status: string;
+    plan?: { nickname?: string; amount?: number };
+};
 
 export default function SubscriptionPage() {
-    const [subscriptions, setSubscriptions] = useState<any[]>([]);
+    const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -17,7 +20,7 @@ export default function SubscriptionPage() {
     useEffect(() => {
         api('/api/v1/payments/subscriptions')
             .then((data) => {
-                setSubscriptions(data as any[]);
+                setSubscriptions(data as Subscription[]);
                 setError(null);
                 setLoading(false);
             })
@@ -36,7 +39,7 @@ export default function SubscriptionPage() {
             setStatus('Subscription cancelled.');
             setError(null);
             setSubscriptions(subscriptions.map(s => s.id === id ? { ...s, status: 'canceled' } : s));
-        } catch (err) {
+        } catch {
             setError('Cancellation failed.');
         }
     };
@@ -51,7 +54,7 @@ export default function SubscriptionPage() {
 
             {subscriptions.length === 0 ? (
                 <Card className="p-12 text-center bg-gray-900/50 border-gray-800">
-                    <p className="text-gray-400 mb-6">You don't have any active subscriptions.</p>
+                    <p className="text-gray-400 mb-6">You don&apos;t have any active subscriptions.</p>
                     <Button onClick={() => window.location.href = '/checkout'}>View Plans</Button>
                 </Card>
             ) : (
@@ -64,7 +67,7 @@ export default function SubscriptionPage() {
                                 <p className="text-sm text-gray-500">Billed: Monthly</p>
                             </div>
                             <div className="text-right">
-                                <p className="text-2xl font-bold mb-4">${(sub.plan?.amount / 100).toFixed(2)}</p>
+                                <p className="text-2xl font-bold mb-4">${((sub.plan?.amount ?? 0) / 100).toFixed(2)}</p>
                                 {sub.status === 'active' && (
                                     <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/10" onClick={() => handleCancel(sub.id)}>
                                         Cancel Subscription

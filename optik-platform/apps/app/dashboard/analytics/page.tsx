@@ -23,8 +23,8 @@ export default function AnalyticsDashboard() {
       try {
         const data = await api<AnalyticsSummary>('/api/v1/analytics/summary');
         if (mounted) setSummary(data);
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load analytics.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load analytics.');
       } finally {
         if (mounted) setLoading(false);
       }

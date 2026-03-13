@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
-import Link from 'next/link';
 import { optikApi, Product } from '@/lib/api';
 
 export default function ProductsManagement() {
@@ -42,16 +40,8 @@ export default function ProductsManagement() {
                 description: "New Product"
             });
             setProducts([...products, newProduct]);
-        } catch (e) {
+        } catch {
             setError('Failed to create product.');
-        }
-    };
-
-    const handleEdit = async (product: Product) => {
-        const newName = window.prompt("Update product name:", product.name);
-        if (newName && newName !== product.name) {
-            await optikApi.updateProduct(product.id, { name: newName });
-            loadProducts();
         }
     };
 

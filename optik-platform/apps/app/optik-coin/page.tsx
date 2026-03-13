@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 
 export default function OptikCoinPage() {
     return (
@@ -84,8 +83,8 @@ export default function OptikCoinPage() {
                         <span className="text-blue-500 font-bold uppercase tracking-widest text-sm">The Bridge to Web3</span>
                         <h2 className="text-5xl font-black mt-4 mb-6">Why the DApp Converter Matters</h2>
                         <p className="text-xl text-gray-400">
-                            Our proprietary AI agent pipeline doesn't just copy your store—it evolves it.
-                            It strips away the "platform tax" and injects decentralized utility into every product.
+                            Our proprietary AI agent pipeline doesn&apos;t just copy your store—it evolves it.
+                            It strips away the &quot;platform tax&quot; and injects decentralized utility into every product.
                         </p>
                     </div>
 
@@ -115,7 +114,7 @@ export default function OptikCoinPage() {
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-6xl font-black mb-6">Unlock <span className="text-blue-400">8+ New Revenue Streams</span></h2>
                         <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                            By converting your store, you don't just sell products. You participate in a decentralized economy.
+                            By converting your store, you don&apos;t just sell products. You participate in a decentralized economy.
                             Keep your Web2 sales if you choose, but ADD these Web3 engines:
                         </p>
                     </div>

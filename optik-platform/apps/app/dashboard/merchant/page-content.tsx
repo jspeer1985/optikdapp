@@ -9,10 +9,10 @@ import { useAuth } from '@/context/AuthContext';
 export default function MerchantDashboard() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>(null);
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [merchant, setMerchant] = useState<any>(null);
-  const [dapps, setDapps] = useState<any[]>([]);
+  const [data, setData] = useState<Record<string, unknown> | null>(null);
+  const [transactions, setTransactions] = useState<Record<string, unknown>[]>([]);
+  const [merchant, setMerchant] = useState<Record<string, unknown> | null>(null);
+  const [dapps, setDapps] = useState<Record<string, unknown>[]>([]);
   const [lastSync, setLastSync] = useState<Date | null>(null);
   
   // Default platform fee percentage
@@ -23,13 +23,13 @@ export default function MerchantDashboard() {
     const fetchStats = async () => {
       try {
         const [merchantRes, statsRes, txRes, dappsRes] = await Promise.all([
-          api<any>(`/api/v1/connect/merchant/me`),
-          api<any>(`/api/v1/payments/merchant/stats`),
-          api<any[]>(`/api/v1/payments/merchant/transactions`),
-          api<{ dapps: any[] }>(`/api/v1/dapps`)
+          api<Record<string, unknown>>(`/api/v1/connect/merchant/me`),
+          api<Record<string, unknown>>(`/api/v1/payments/merchant/stats`),
+          api<Record<string, unknown>[]>(`/api/v1/payments/merchant/transactions`),
+          api<{ dapps: Record<string, unknown>[] }>(`/api/v1/dapps`)
         ]);
 
-        setMerchant(merchantRes.merchant || null);
+        setMerchant((merchantRes.merchant as Record<string, unknown>) || null);
         setData({
           totalRevenue: statsRes.gross_revenue || 0,
           netEarnings: statsRes.net_payouts || 0,
@@ -37,9 +37,9 @@ export default function MerchantDashboard() {
           totalTransactions: statsRes.order_count || 0,
         });
         setTransactions(
-          (txRes || []).map((entry: any) => ({
+          (txRes || []).map((entry: Record<string, unknown>) => ({
             ...entry,
-            amount: (entry.merchant_payout ?? entry.gross_amount ?? 0) / 100,
+            amount: ((entry.merchant_payout ?? entry.gross_amount ?? 0) as number) / 100,
           }))
         );
         setDapps(dappsRes.dapps || []);
@@ -97,14 +97,14 @@ export default function MerchantDashboard() {
             <div>
               <h1 className="text-3xl font-black text-white">Merchant <span className="gradient-text">Overview</span></h1>
               <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">
-                System Hub <span className="mx-2 text-white/10">|</span> {(merchant?.tier || 'unassigned').toUpperCase()} Tier <span className="mx-2 text-white/10">|</span> Ledger Verified
+                System Hub <span className="mx-2 text-white/10">|</span> {String(merchant?.tier || 'unassigned').toUpperCase()} Tier <span className="mx-2 text-white/10">|</span> Ledger Verified
               </p>
             </div>
           </div>
           <div className="hidden md:flex gap-4">
             <div className="text-right">
               <p className="text-[10px] text-gray-500 font-black uppercase mb-1">Vault Status</p>
-              <p className="text-sm font-bold text-emerald-400">{(merchant?.status || 'pending').toUpperCase()}</p>
+              <p className="text-sm font-bold text-emerald-400">{String(merchant?.status || 'pending').toUpperCase()}</p>
             </div>
           </div>
         </div>
@@ -112,10 +112,10 @@ export default function MerchantDashboard() {
         {/* Stats Grid - Live Ledger Data */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { label: 'Gross Revenue', value: data ? `$${data.totalRevenue.toLocaleString()}` : '$0.00', icon: '💰', trend: 'Active' },
-            { label: 'Net Payouts', value: data ? `$${data.netEarnings.toLocaleString()}` : '$0.00', icon: '💎', trend: 'Audit Verified' },
-            { label: 'Order Count', value: data?.totalTransactions || '0', icon: '🛒', trend: 'Total Volume' },
-            { label: 'Platform Fees', value: data ? `$${data.platformFees.toLocaleString()}` : '$0.00', icon: '🛡️', trend: 'Optik Share' },
+            { label: 'Gross Revenue', value: data ? `$${Number(data.totalRevenue).toLocaleString()}` : '$0.00', icon: '💰', trend: 'Active' },
+            { label: 'Net Payouts', value: data ? `$${Number(data.netEarnings).toLocaleString()}` : '$0.00', icon: '💎', trend: 'Audit Verified' },
+            { label: 'Order Count', value: String(data?.totalTransactions || '0'), icon: '🛒', trend: 'Total Volume' },
+            { label: 'Platform Fees', value: data ? `$${Number(data.platformFees).toLocaleString()}` : '$0.00', icon: '🛡️', trend: 'Optik Share' },
           ].map((s, i) => (
             <div key={i} className="glass p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden group hover:border-blue-500/30 transition-all text-left">
               <div className="absolute top-0 right-0 p-6 text-2xl opacity-10 group-hover:opacity-100 transition-opacity">
@@ -150,13 +150,13 @@ export default function MerchantDashboard() {
                   <div>
                     <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">Settled for Withdrawal</p>
                     <h3 className="text-5xl font-black text-white">
-                      {data ? data.netEarnings.toFixed(2) : '0.00'} <span className="text-blue-400">USD</span>
+                      {data ? Number(data.netEarnings).toFixed(2) : '0.00'} <span className="text-blue-400">USD</span>
                     </h3>
                     <p className="text-sm text-gray-500 mt-2 font-mono">Funds secured via Stripe Connect</p>
                   </div>
                   <div className="flex gap-4">
                     <Link href="/dashboard/billing/history" className="flex-1">
-                      <Button disabled={!data || data.netEarnings === 0} className="w-full py-4 rounded-2xl shadow-xl shadow-blue-500/20">
+                      <Button disabled={!data || Number(data.netEarnings) === 0} className="w-full py-4 rounded-2xl shadow-xl shadow-blue-500/20">
                         View Payouts
                       </Button>
                     </Link>
@@ -174,9 +174,9 @@ export default function MerchantDashboard() {
                     {transactions.length > 0 ? (
                       transactions.slice(0, 3).map((tx, i) => (
                         <div key={i} className="flex justify-between items-center text-xs font-mono">
-                          <span className="text-gray-500">{tx.id}</span>
+                          <span className="text-gray-500">{String(tx.id || '')}</span>
                           <div className="flex gap-3">
-                            <span className="text-emerald-400">+${tx.amount.toFixed(2)}</span>
+                            <span className="text-emerald-400">+${Number(tx.amount).toFixed(2)}</span>
                             <span className="text-gray-400">Net</span>
                           </div>
                         </div>
@@ -201,13 +201,13 @@ export default function MerchantDashboard() {
                     <div className="flex items-center gap-6">
                       <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center text-xl">🌐</div>
                       <div>
-                        <p className="font-bold text-white text-lg">{dapp.store_name || dapp.job_id}</p>
-                        <p className="text-xs text-gray-500 font-mono">{dapp.dapp_url || dapp.store_url}</p>
+                        <p className="font-bold text-white text-lg">{String(dapp.store_name || dapp.job_id || '')}</p>
+                        <p className="text-xs text-gray-500 font-mono">{String(dapp.dapp_url || dapp.store_url || '')}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-emerald-400 text-xs font-black uppercase tracking-widest mb-1">{(dapp.status || 'active').toUpperCase()}</p>
-                      <p className="text-sm font-bold text-gray-400">{dapp.order_count || 0} Total Sales</p>
+                      <p className="text-emerald-400 text-xs font-black uppercase tracking-widest mb-1">{String(dapp.status || 'active').toUpperCase()}</p>
+                      <p className="text-sm font-bold text-gray-400">{String(dapp.order_count || 0)} Total Sales</p>
                     </div>
                   </div>
                 )) : (
@@ -269,7 +269,7 @@ export default function MerchantDashboard() {
                 <div className="p-5 bg-black/40 rounded-2xl border border-white/5 space-y-2">
                   <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Protocol Trust</p>
                   <p className="text-xs text-gray-400 leading-relaxed italic">
-                    "Optik settlements are processed on-chain. We never hold your funds. Revenue is split instantly per transaction."
+                    &quot;Optik settlements are processed on-chain. We never hold your funds. Revenue is split instantly per transaction.&quot;
                   </p>
                 </div>
               </div>

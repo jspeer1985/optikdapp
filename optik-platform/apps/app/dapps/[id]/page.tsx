@@ -66,8 +66,8 @@ export default function DappView() {
       try {
         const response = await api<DappResponse>(`/api/v1/dapps/${dappId}`);
         if (mounted) setData(response);
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load storefront');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load storefront');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -112,8 +112,8 @@ export default function DappView() {
       const signature = await sendTransaction(transaction, connection);
       await connection.confirmTransaction(signature, 'confirmed');
       setStatusMessage('Payment confirmed on-chain.');
-    } catch (err: any) {
-      setError(err.message || 'Solana payment failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Solana payment failed');
       setStatusMessage(null);
     } finally {
       setProcessing(false);
@@ -144,8 +144,8 @@ export default function DappView() {
       } else {
         throw new Error('Stripe checkout URL missing');
       }
-    } catch (err: any) {
-      setError(err.message || 'Card payment failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Card payment failed');
     } finally {
       setProcessing(false);
     }

@@ -1,0 +1,10 @@
+/home/kali/Dapp_Optik/contracts/programs/nft-pairer/target/release/deps/spl_token_group_interface-d4111d1453ca7be3.d: /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/instruction.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/state.rs
+
+/home/kali/Dapp_Optik/contracts/programs/nft-pairer/target/release/deps/libspl_token_group_interface-d4111d1453ca7be3.so: /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/instruction.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/state.rs
+
+/home/kali/Dapp_Optik/contracts/programs/nft-pairer/target/release/deps/libspl_token_group_interface-d4111d1453ca7be3.rlib: /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/lib.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/error.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/instruction.rs /home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/state.rs
+
+/home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/lib.rs:
+/home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/error.rs:
+/home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/instruction.rs:
+/home/kali/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-group-interface-0.6.0/src/state.rs:

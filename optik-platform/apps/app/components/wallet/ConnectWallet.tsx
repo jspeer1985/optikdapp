@@ -3,12 +3,22 @@
 import dynamic from 'next/dynamic';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useWalletModal } from '@solana/wallet-adapter-react-ui';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 
 // SSR-safe import of the modal trigger button
 const WalletMultiButton = dynamic(
-    async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
-    { ssr: false }
+    async () => {
+        const { WalletMultiButton } = await import('@solana/wallet-adapter-react-ui');
+        return WalletMultiButton;
+    },
+    { 
+        ssr: false,
+        loading: () => (
+            <div className="!rounded-2xl !font-bold !h-12 !px-8 !transition-all bg-blue-600 text-white animate-pulse">
+                Connect Wallet
+            </div>
+        )
+    }
 );
 
 interface ConnectWalletProps {
@@ -28,8 +38,18 @@ interface ConnectWalletProps {
  * modal or disconnects, with a short visible address while connected.
  */
 export default function ConnectWallet({ className = '', custom = false }: ConnectWalletProps) {
+    const [mounted, setMounted] = useState(false);
     const { connected, publicKey, disconnect, connecting } = useWallet();
     const { setVisible } = useWalletModal();
+
+    useEffect(() => {
+        setMounted(true);
+        console.log('[ConnectWallet] Component mounted');
+    }, []);
+
+    useEffect(() => {
+        console.log('[ConnectWallet] Wallet state:', { connected, connecting, hasPublicKey: !!publicKey });
+    }, [connected, connecting, publicKey]);
 
     const shortAddress = useMemo(() => {
         if (!publicKey) return null;
@@ -44,6 +64,15 @@ export default function ConnectWallet({ className = '', custom = false }: Connec
             setVisible(true);
         }
     }, [connected, disconnect, setVisible]);
+
+    // Don't render until mounted on client
+    if (!mounted) {
+        return (
+            <div className="!rounded-2xl !font-bold !h-12 !px-8 !transition-all bg-blue-600 text-white animate-pulse">
+                Connect Wallet
+            </div>
+        );
+    }
 
     if (!custom) {
         // Default: use the upstream library button (handles Phantom, Solflare, etc.)

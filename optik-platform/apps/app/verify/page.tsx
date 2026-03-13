@@ -33,8 +33,8 @@ export default function VerifyPage() {
         body: JSON.stringify({ value: value.trim() }),
       });
       setResult(data);
-    } catch (err: any) {
-      setError(err.message || 'Verification failed.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Verification failed.');
     } finally {
       setLoading(false);
     }

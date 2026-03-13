@@ -25,7 +25,7 @@ function parseApiErrorMessage(error: unknown, fallback: string) {
   try {
     const parsed = JSON.parse(payload);
     return parsed.detail || error.message || fallback;
-  } catch (e) {
+  } catch {
     return payload;
   }
 }
@@ -50,8 +50,9 @@ function AuthPageContent() {
       method: "POST",
       body: JSON.stringify({ token }),
     })
-      .then((res: any) => {
-        setUser(res.user);
+      .then((res) => {
+        const r = res as Record<string, unknown>;
+        setUser(r.user as Parameters<typeof setUser>[0]);
         router.push("/dashboard/merchant");
       })
       .catch((err) => {
@@ -119,7 +120,7 @@ function AuthPageContent() {
           nonce: nonceRes.nonce,
           email: email || undefined,
         }),
-      }) as { user: any };
+      }) as { user: import("@/context/AuthContext").AuthUser };
 
       if (verifyRes && verifyRes.user) {
         setUser(verifyRes.user);

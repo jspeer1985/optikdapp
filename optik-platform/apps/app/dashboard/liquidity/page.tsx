@@ -24,8 +24,8 @@ export default function LiquidityBacking() {
       try {
         const data = await api<LiquiditySummary>('/api/v1/liquidity/summary');
         if (mounted) setSummary(data);
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load liquidity data');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load liquidity data');
       }
     };
     loadSummary();
@@ -49,8 +49,8 @@ export default function LiquidityBacking() {
       });
       setStatus('Liquidity backing request submitted.');
       setAmount('');
-    } catch (err: any) {
-      setError(err.message || 'Failed to submit request.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to submit request.');
     }
   };
 
@@ -60,7 +60,7 @@ export default function LiquidityBacking() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-black text-white mb-2">Liquidity & <span className="gradient-text">Backing</span></h1>
-            <p className="text-gray-400">Manage the $OPTIK token pairing that underpins your store's value floor.</p>
+            <p className="text-gray-400">Manage the $OPTIK token pairing that underpins your store&apos;s value floor.</p>
           </div>
         </div>
 

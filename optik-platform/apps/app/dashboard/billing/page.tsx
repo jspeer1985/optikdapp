@@ -17,8 +17,8 @@ type LedgerEntry = {
 
 export default function BillingCenter() {
   const [transactions, setTransactions] = useState<LedgerEntry[]>([]);
-  const [stats, setStats] = useState<any>(null);
-  const [merchant, setMerchant] = useState<any>(null);
+  const [stats, setStats] = useState<Record<string, unknown> | null>(null);
+  const [merchant, setMerchant] = useState<Record<string, unknown> | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,17 +27,17 @@ export default function BillingCenter() {
     const loadBilling = async () => {
       try {
         const [statsRes, txRes, merchantRes] = await Promise.all([
-          api<any>('/api/v1/payments/merchant/stats'),
+          api<Record<string, unknown>>('/api/v1/payments/merchant/stats'),
           api<LedgerEntry[]>('/api/v1/payments/merchant/transactions'),
-          api<any>('/api/v1/connect/merchant/me'),
+          api<Record<string, unknown>>('/api/v1/connect/merchant/me'),
         ]);
         if (mounted) {
           setStats(statsRes);
           setTransactions(txRes || []);
-          setMerchant(merchantRes.merchant || null);
+          setMerchant((merchantRes.merchant as Record<string, unknown>) || null);
         }
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load billing data.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load billing data.');
       } finally {
         if (mounted) setLoading(false);
       }
@@ -99,9 +99,9 @@ export default function BillingCenter() {
               <div className="space-y-4">
                 <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
                   <p className="text-blue-400 font-black uppercase text-[10px] tracking-widest mb-1">Active Plan</p>
-                  <p className="text-2xl font-black">{merchant?.tier ? merchant.tier.toUpperCase() : 'Not set'}</p>
+                  <p className="text-2xl font-black">{merchant?.tier ? String(merchant.tier).toUpperCase() : 'Not set'}</p>
                   <p className="text-gray-400 text-sm mt-2">
-                    Revenue Share: {stats && stats.gross_revenue ? `${((stats.platform_fees / stats.gross_revenue) * 100).toFixed(2)}%` : '—'}
+                    Revenue Share: {stats && stats.gross_revenue ? `${(((stats.platform_fees as number) / (stats.gross_revenue as number)) * 100).toFixed(2)}%` : '—'}
                   </p>
                 </div>
                 <Link href="/payments">

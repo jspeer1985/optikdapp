@@ -40,7 +40,7 @@ export default function IntegrationsHub() {
                 await optikApi.connectIntegration(app.id);
             }
             loadIntegrations();
-        } catch (e) {
+        } catch {
             setError('Action failed. Please try again.');
         }
     };
@@ -51,7 +51,7 @@ export default function IntegrationsHub() {
                 <div className="flex justify-between items-center text-left">
                     <div>
                         <h1 className="text-4xl font-black text-white mb-2">Integrations <span className="gradient-text">Hub</span></h1>
-                        <p className="text-gray-400">Bridge your decentralized empire with the world's leading e-commerce tools.</p>
+                        <p className="text-gray-400">Bridge your decentralized empire with the world&apos;s leading e-commerce tools.</p>
                     </div>
                 </div>
 

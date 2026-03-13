@@ -1,62 +1,96 @@
-# 👁️ Optik Platform - Enterprise Web3 Infrastructure
+# 👁️ Optik Platform - Automated dApp Factory
 
-Optik Platform is a comprehensive Solana-based infrastructure for building, launching, and scaling decentralized applications. It bridges the gap between Web2 e-commerce (Shopify/WooCommerce) and the Web3 ecosystem.
+Convert any e-commerce store to a Web3 dApp with AI-powered automation. Support for 9 major platforms including Shopify, WooCommerce, Amazon, and eBay.
 
-## 🚀 Quick Start (Automated)
-
-We have provided a one-click automation script to validate your environment and prepare the project for deployment:
+## 🚀 Quick Start
 
 ```bash
-chmod +x automate_deployment.sh
-./automate_deployment.sh
+# 1. Clone and setup
+git clone <repository-url>
+cd Dapp_Optik
+
+# 2. Install dependencies
+npm install
+pip install -r optik-platform/backend/requirements.txt
+
+# 3. Configure environment
+cp optik-platform/backend/.env.example optik-platform/apps/.env.local
+# Edit .env.local with your API keys
+
+# 4. Start development
+npm run dev  # Frontend (port 3003)
+cd optik-platform/backend && python -m uvicorn api.main:app --reload  # Backend (port 8000)
 ```
 
-This script will:
+## 📚 Complete Documentation
 
-- Check for required dependencies (Node, Python).
-- Validate your `.env` secrets.
-- Verify backend connectivity.
-- Run a production build simulation.
-- Prepare your environment for production deployment.
+📖 **[View Full Documentation](docs/README.md)**
+
+### **Key Guides:**
+- **[Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)** - 5-minute setup
+- **[Production Setup](docs/setup/PRODUCTION_SETUP_SUMMARY.md)** - Deployment guide
+- **[MCP Integration](docs/guides/MCP_INTEGRATION_GUIDE.md)** - Platform integrations
 
 ## 🏗️ Project Structure
 
-- **`/optik-platform/apps`**: Next.js 14 Frontend (Web3 Storefront & Dashboard).
-- **`/optik-platform/backend`**: FastAPI AI Engine (Scrapers, Analyzers, Payment Gateways).
-- **`/contracts`**: Solana Smart Contracts (Anchor/Solidity).
-- **`/optikcoin`**: native token and Shopify theme integration.
+```
+optik-platform/
+├── apps/                    # Next.js frontend
+├── backend/                 # FastAPI services
+│   ├── services/           # Core automation logic
+│   ├── mcp_servers/        # Platform integrations
+│   └── demos/             # Development examples
+├── contracts/              # Solana smart contracts
+├── docs/                   # Complete documentation
+└── scripts/               # Utility scripts
+```
 
-## 🌐 Deployment Roadmap
+## 🎯 Features
 
-### 1. Frontend (Self-Hosted / Your Choice)
+- **9 E-commerce Platforms** - Shopify, WooCommerce, Wix, BigCommerce, Magento, Squarespace, Etsy, Amazon, eBay
+- **AI-Powered Automation** - Complete conversion pipeline
+- **NFT Creation with OPTIK Pairing** - Automatic token generation
+- **Smart Contract Deployment** - Blockchain integration
+- **Revenue Collection** - Transaction fee monitoring
 
-- **Root Directory**: `optik-platform/apps`
-- **Build Command**: `npm run build`
-- **Framework**: Next.js
-- **Domain**: https://optikcoin.com
+## 💰 Business Model
 
-### 2. Backend (Your Server)
+- **Conversion Fees**: $5K-100K per dApp conversion
+- **Transaction Fees**: 1-3% of all dApp transactions
+- **NFT Minting**: Revenue from token creation
+- **Premium Features**: Advanced analytics
 
-- **Host**: Any Python-capable host with Docker support.
-- **Port**: 80000 (standard for Optik API).
-- **Database**: MongoDB (Atlas) or PostgreSQL.
+## 🌐 Access
+
+- **Frontend**: http://localhost:3003
+- **Backend API**: http://localhost:8000
+- **API Docs**: http://localhost:8000/docs
+- **Documentation**: [docs/README.md](docs/README.md)
 
 ## 🛡️ Security & Audits
 
-- Non-custodial wallet architecture.
-- Automated API rate limiting.
-- Secure environment variable handling (AWS Secrets Manager compatible).
-- Real-time revenue splitting at the smart contract level.
+- Non-custodial wallet architecture
+- Automated API rate limiting
+- Secure environment variable handling
+- Real-time revenue splitting
 
-## 💳 Partnership Tiers
+## 💰 Partnership Tiers
 
-Optik operates on a **Revenue Share Model** ($0 upfront):
+Revenue Share Model ($0 upfront):
 
 - **Elite**: 15% share | 6 AI Agents | Full Autonomy
 - **Scale**: 12% share | 4 AI Agents | Security Suite+
 - **Global**: 9% share | 3 AI Agents | Multi-Region
 - **Growth**: 5% share | 2 AI Agents | Automation Core
 - **Basic**: 3% share | 1 AI Agent | Core Tools
+
+---
+
+## 📞 Support
+
+- 📖 [Full Documentation](docs/README.md)
+- 📧 Email: support@optikcoin.com
+- 🐛 Issues: GitHub Issues
 
 ---
 

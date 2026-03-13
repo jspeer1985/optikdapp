@@ -1,0 +1,85 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *' # Daily at 2 AM UTC
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd optik-platform/apps
+        npm ci
+        
+    - name: Run npm audit
+      run: |
+        cd optik-platform/apps
+        npm audit --audit-level moderate --json > audit-results.json || true
+        
+    - name: Run Snyk security scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --severity-threshold=high
+        
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        languages: javascript
+        
+    - name: Upload security artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-scan-results
+        path: |
+          optik-platform/apps/audit-results.json
+          
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          try {
+            const auditResults = JSON.parse(fs.readFileSync('optik-platform/apps/audit-results.json', 'utf8'));
+            const vulnerabilities = auditResults.vulnerabilities || [];
+            const highVulns = vulnerabilities.filter(v => v.severity === 'high' || v.severity === 'critical');
+            
+            if (highVulns.length > 0) {
+              const comment = `## 🔒 Security Scan Results
+              
+              Found **${highVulns.length}** high/critical vulnerabilities:
+              
+              ${highVulns.map(v => `- **${v.title}** (${v.severity}): ${v.url}`).join('\n')}
+              
+              Please address these vulnerabilities before merging.
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
+          } catch (error) {
+            console.log('Could not read audit results:', error.message);
+          }

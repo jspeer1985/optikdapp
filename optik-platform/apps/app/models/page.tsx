@@ -30,8 +30,8 @@ export default function ModelsPage() {
         setData(response);
         const stored = window.localStorage.getItem('optik_model_mode');
         setSelected(stored || response.default_mode || 'balanced');
-      } catch (err: any) {
-        if (mounted) setError(err.message || 'Failed to load model options.');
+      } catch (err: unknown) {
+        if (mounted) setError(err instanceof Error ? err.message : 'Failed to load model options.');
       }
     };
     load();

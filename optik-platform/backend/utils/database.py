@@ -25,13 +25,19 @@ from utils.env import allow_demo_data
 
 logger = logging.getLogger(__name__)
 
-# Define database URL (Docker or Local fallback)
-_RAW_DB_URL = os.getenv("DATABASE_URL", "postgresql://kali:optik@localhost:5432/optik")
+# Define database URL — must be set via environment variable, no hardcoded fallback
+_RAW_DB_URL = os.getenv("DATABASE_URL")
+if not _RAW_DB_URL:
+    raise EnvironmentError(
+        "DATABASE_URL environment variable is required but not set. "
+        "Example: postgresql://user:password@localhost:5432/optik"
+    )
 
 # Allow non-Postgres URLs (like SQLite for tests) if needed, but default to Postgres
 if _RAW_DB_URL.startswith("mongodb"):
-    logger.warning("MongoDB URL detected in environment, falling back to PostgreSQL default for relational data.")
-    _RAW_DB_URL = "postgresql://kali:optik@localhost:5432/optik"
+    raise EnvironmentError(
+        "DATABASE_URL points to MongoDB, but this module requires a PostgreSQL or SQLite URL."
+    )
 
 # Handle SQLite vs PostgreSQL URL formats
 if "sqlite" in _RAW_DB_URL:
@@ -117,7 +123,6 @@ merchants = Table(
     metadata,
     Column("id", String, primary_key=True),
     Column("user_id", String, unique=True, index=True),
-    Column("stripe_account_id", String, nullable=True),
     Column("tier", String, default="basic"),
     Column("status", String, default="pending"),
     Column("created_at", DateTime, default=datetime.utcnow),
@@ -136,7 +141,6 @@ ledger_entries = Table(
     Column("platform_fee", Integer),
     Column("merchant_payout", Integer),
     Column("currency", String),
-    Column("stripe_intent_id", String, nullable=True),
     Column("solana_signature", String, nullable=True),
     Column("metadata", JSON, nullable=True),
     Column("created_at", DateTime, default=datetime.utcnow),
@@ -266,7 +270,6 @@ onboarding_payments = Table(
     metadata,
     Column("id", String, primary_key=True),
     Column("user_id", String, index=True),
-    Column("stripe_session_id", String, unique=True, index=True),
     Column("amount_cents", Integer),
     Column("currency", String),
     Column("status", String, default="pending"),
@@ -584,16 +587,12 @@ class DatabaseManager:
         result = await self.database.fetch_one(merchants.select().where(merchants.c.id == merchant_id))
         return dict(result) if result else None
 
-    async def get_merchant_by_stripe_account_id(self, stripe_account_id: str) -> Optional[Dict[str, Any]]:
-        result = await self.database.fetch_one(merchants.select().where(merchants.c.stripe_account_id == stripe_account_id))
         return dict(result) if result else None
 
-    async def upsert_merchant(self, user_id: str, stripe_account_id: Optional[str], tier: str, status: str) -> Dict[str, Any]:
         existing = await self.get_merchant_by_user(user_id)
         now = datetime.utcnow()
         if existing:
             updates = {
-                "stripe_account_id": stripe_account_id,
                 "tier": tier,
                 "status": status,
                 "updated_at": now,
@@ -606,7 +605,6 @@ class DatabaseManager:
         query = merchants.insert().values(
             id=merchant_id,
             user_id=user_id,
-            stripe_account_id=stripe_account_id,
             tier=tier,
             status=status,
             created_at=now,
@@ -616,7 +614,6 @@ class DatabaseManager:
         return {
             "id": merchant_id,
             "user_id": user_id,
-            "stripe_account_id": stripe_account_id,
             "tier": tier,
             "status": status,
             "created_at": now,
@@ -636,7 +633,6 @@ class DatabaseManager:
             "platform_fee": entry.get("platform_fee"),
             "merchant_payout": entry.get("merchant_payout"),
             "currency": entry.get("currency", "usd"),
-            "stripe_intent_id": entry.get("stripe_intent_id"),
             "solana_signature": entry.get("solana_signature"),
             "metadata": entry.get("metadata"),
             "created_at": entry.get("created_at") or datetime.utcnow(),
@@ -1031,13 +1027,11 @@ class DatabaseManager:
         return dict(row) if row else None
 
     # ---------------- Onboarding Payments ----------------
-    async def create_onboarding_payment(self, user_id: str, stripe_session_id: str, amount_cents: int, currency: str) -> str:
         payment_id = f"onb_{uuid.uuid4().hex}"
         await self.database.execute(
             onboarding_payments.insert().values(
                 id=payment_id,
                 user_id=user_id,
-                stripe_session_id=stripe_session_id,
                 amount_cents=amount_cents,
                 currency=currency,
                 status="pending",
@@ -1047,10 +1041,8 @@ class DatabaseManager:
         )
         return payment_id
 
-    async def update_onboarding_payment_status(self, stripe_session_id: str, status: str) -> None:
         await self.database.execute(
             onboarding_payments.update()
-            .where(onboarding_payments.c.stripe_session_id == stripe_session_id)
             .values(status=status, updated_at=datetime.utcnow())
         )
 
@@ -1062,9 +1054,7 @@ class DatabaseManager:
         )
         return dict(row) if row else None
 
-    async def get_onboarding_payment_by_session(self, stripe_session_id: str) -> Optional[Dict[str, Any]]:
         row = await self.database.fetch_one(
-            onboarding_payments.select().where(onboarding_payments.c.stripe_session_id == stripe_session_id)
         )
         return dict(row) if row else None
 
